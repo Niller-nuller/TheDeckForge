@@ -5,32 +5,28 @@
     <title>Card List</title>
 </head>
 <body>
+    <div>
+        <h1>Card List</h1>
 
-<h1>Card List</h1>
+            <div class="card-seachbar">
+                <form class="seach-bar" th:action="@{/cards/cardlist}" method="get">
+                    <input type="text" name="search" th:value="${search}" placeholder="Search Cards..">
+                    <button type="submit">Search</button>
+                </form>
+            </div>
 
-<
+            <h3>Card List</h3>
+                <div th:if="${#lists.isEmpty(cardlist)}">
+                    <p>No cards found...</p>
+                </div>
+            <div th:if="${!#lists.isEmpty(cardlist)}">
+                <div th:each="card : ${cardlist}" th:object="${card}">
 
-<h3>Card List</h3>
-<table>
-    <tr>
-        <th>Card Name</th>
-        <th>Card Type</th>
-        <th>Card Color</th>
-        <th>Card Set</th>
-    </tr>
-    <tbody>
-        <tr th:each="card : ${cardslist}">
-            <td th:text="${card.name}"></td>
-            <td th:text="${card.type}"></td>
-            <td th:text="${card.color}"></td>
-            <td th:text="${card.set}"></td>
-        </tr>
-    </tbody>
-</table>
-
-<h4> <a th:href="@{/}">Home</a></h4>
+                </div>
+            </div>
+    <h4> <a th:href="@{/}">Home</a></h4>
 
 
-
+</div>
 </body>
 </html>

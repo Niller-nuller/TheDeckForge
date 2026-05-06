@@ -2,11 +2,12 @@ package org.example.thedeckforge.repository;
 
 import org.example.thedeckforge.entity.Card;
 import org.example.thedeckforge.entity.enums.CardType;
-import org.example.thedeckforge.entity.repositoryinterface.ICardRepository;
+import org.example.thedeckforge.entity.interfaces.ICardRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class CardRepositoryTest implements ICardRepository {
 
@@ -23,6 +24,10 @@ public class CardRepositoryTest implements ICardRepository {
     public List<Card> returnCardList() {
         return cardList;
     }
+    @Override
+    public List<Card> returnCardListByName(String name) {
+        return cardList.stream().filter(Card -> Card.getCardName().equals(name)).collect(Collectors.toList());
+    }
 
     @Override
     public Optional<Card> returnCardById(int requestId) {
@@ -37,5 +42,10 @@ public class CardRepositoryTest implements ICardRepository {
     @Override
     public Optional<Card> returnCardByType(String type) {
         return Optional.empty();
+    }
+    @Override
+    public Optional<Card> returnIllegalStateOfCard(){
+        Card card = new Card(5,null,null,null,null,null,null,null,null,0,0);
+        return Optional.of(card);
     }
 }

@@ -1,4 +1,4 @@
-package org.example.thedeckforge.entity.repositoryinterface;
+package org.example.thedeckforge.entity.interfaces;
 
 import org.example.thedeckforge.entity.Card;
 
@@ -9,8 +9,10 @@ public interface ICardRepository {
 
     void populateCardList();
     List<Card> returnCardList();
+    List<Card> returnCardListByName(String name);
     Optional<Card> returnCardById(int id);
     Optional<Card> returnCardByName(String name);
     Optional<Card> returnCardByType(String type);
+    Optional<Card> returnIllegalStateOfCard();
 
 }

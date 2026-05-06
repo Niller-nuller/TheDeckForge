@@ -11,7 +11,7 @@ CREATE TABLE Card_Register (
     PictureReference VARCHAR(500),
     ManaCost VARCHAR(20),
     ATK INT,
-    DEF INT NOT NULL
+    DEF INT
 );
 
 CREATE TABLE Credentials (

@@ -45,7 +45,7 @@ CREATE TABLE User_Collection_Cards (
     CardId BIGINT NOT NULL,
     Quantity INT NOT NULL DEFAULT 1,
     CollectionCardStatus VARCHAR(20) NOT NULL,
-    primary key (UserCollectionId, CardId),
+    primary key (UserCollectionId),
     foreign key (UserCollectionId) references User_Collection(UserCollectionId),
     FOREIGN KEY (CardId) REFERENCES Card_Register(CardId)
 );

@@ -12,11 +12,9 @@ import java.util.*;
 class CardServiceTest {
 
     private ICardRepository cardRepository;
-    private ValidationService validationService;
 
     @BeforeEach
     public void setUp(){
-
         cardRepository = new CardRepositoryTest();
         cardRepository.populateCardList();
     }

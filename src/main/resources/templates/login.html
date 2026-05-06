@@ -9,7 +9,6 @@
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
-<div th:replace="~{fragments/navbar :: navbar}"></div>
 <div>
     <h1>Vær sød at logge ind</h1>
     <form th:action="@{/login}" th:object="${Authority}" method="post">
@@ -22,7 +21,6 @@
         <button type="submit">Log ind</button>
         <a href="/register"><button type="button">Register</button></a>
     </form>
-
 </div>
 </body>
 </html>

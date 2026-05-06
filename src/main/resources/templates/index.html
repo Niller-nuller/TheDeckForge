@@ -1,10 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Deckforge Index Page</title>
+    <title>TheDeckForge Index Page</title>
 </head>
 <body>
+<h1>TheDeckForge Index Page</h1>
 
+
+<h2><a th:href="@{/login}"> Login</a></h2>
+<h2><a th:href="@{/register}"> register</a></h2>
+<h2><a th:href="@{/cards/cardlist}">See cards</a></h2>
 </body>
 </html>

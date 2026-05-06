@@ -30,4 +30,7 @@ public class Card {
         this.attack = attack;
         this.defense = defense;
     }
+    public long getId() {
+        return id;
+    }
 }

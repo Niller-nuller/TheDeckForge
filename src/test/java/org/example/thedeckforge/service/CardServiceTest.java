@@ -1,10 +1,13 @@
 package org.example.thedeckforge.service;
 
+import org.example.thedeckforge.entity.Card;
 import org.example.thedeckforge.entity.repositoryinterface.ICardRepository;
 import org.example.thedeckforge.repository.CardRepositoryTest;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.util.Assert;
+import java.util.List;
+import java.util.Optional;
 
 class CardServiceTest {
 
@@ -18,8 +21,22 @@ class CardServiceTest {
 
     @Test
     public void returnCardListTest() {
-        cardRepository.returnCardList();
+        List<Card> result = cardRepository.returnCardList().stream().toList();
+
+        Assertions.assertNotNull(result);
+        Assertions.assertFalse(result.isEmpty());
+        Assertions.assertEquals(2, result.size());
+    }
+
+    @Test
+    public void returnCardTest() {
+        Optional<Card> result = cardRepository.returnCardById(3);
+        Assertions.assertTrue(result.isEmpty());
+    }
+    @Test
+    public void returnCardByNameTest(){
 
     }
+
 
 }

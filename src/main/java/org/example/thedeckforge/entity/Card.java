@@ -30,4 +30,22 @@ public class Card {
         this.attack = attack;
         this.defense = defense;
     }
+    public long getId() {
+        return id;
+    }
+    public void setId(long id) {
+        this.id = id;
+    }
+    public String getCardName() {
+        return cardName;
+    }
+    public void setCardName(String cardName) {
+        this.cardName = cardName;
+    }
+    public List<CardType> getCardTypes() {
+        return cardTypes;
+    }
+    public void setCardTypes(List<CardType> cardTypes) {
+        this.cardTypes = cardTypes;
+    }
 }

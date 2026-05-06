@@ -6,6 +6,7 @@ import org.example.thedeckforge.entity.repositoryinterface.ICardRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class CardRepositoryTest implements ICardRepository {
 
@@ -21,5 +22,20 @@ public class CardRepositoryTest implements ICardRepository {
     @Override
     public List<Card> returnCardList() {
         return cardList;
+    }
+
+    @Override
+    public Optional<Card> returnCardById(int requestId) {
+        return cardList.stream().filter(card -> card.getId() == requestId).findFirst();
+    }
+
+    @Override
+    public Optional<Card> returnCardByName(String name) {
+        return cardList.stream().filter(card -> card.getCardName().contains(name)).findFirst();
+    }
+
+    @Override
+    public Optional<Card> returnCardByType(String type) {
+        return Optional.empty();
     }
 }

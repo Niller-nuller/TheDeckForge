@@ -23,25 +23,25 @@ CREATE TABLE Credentials (
 
 CREATE TABLE Users (
     UserId BIGINT AUTO_INCREMENT PRIMARY KEY,
-    Name VARCHAR(100),
-    Age INT NOT NULL,
     UserCredentialsId BIGINT NOT NULL,
+    Name VARCHAR(100),
+    DateOfBirth DATE NOT NULL,
     FOREIGN KEY (UserCredentialsId) REFERENCES Credentials(CredentialsId)
 );
 
 CREATE TABLE User_Collection (
-    UserCollectionId BIGINT,
-    UserId BIGINT NOT NULL,
+    UserCollectionId BIGINT PRIMARY KEY,
     CollectionVisibility VARCHAR(20) NOT NULL,
-    FOREIGN KEY (UserId) REFERENCES Users(UserId),
-    FOREIGN KEY (CardId) REFERENCES Card_Register(CardId)
+    FOREIGN KEY (UserCollectionId) REFERENCES Users(UserId) --Enforced 1:1 relationship with User
 );
 
 CREATE TABLE User_Collection_Cards (
-    UserCollectionId BIGINT,
+    UserCollectionId BIGINT NOT NULL PRIMARY KEY,
     CardId BIGINT NOT NULL,
     Quantity INT NOT NULL DEFAULT 1,
     CollectionCardStatus VARCHAR(20) NOT NULL,
+    FOREIGN KEY (UserCollectionId) REFERENCES User_Collection(UserCollectionId),
+    FOREIGN KEY (CardId) REFERENCES Card_Register(CardId)
 );
 
 

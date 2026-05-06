@@ -1,4 +1,8 @@
-DROP TABLE IF EXISTS DeckForgeDB;
+DROP TABLE IF EXISTS User_Collection_Cards;
+DROP TABLE IF EXISTS User_Collection;
+DROP TABLE IF EXISTS Users;
+DROP TABLE IF EXISTS Credentials;
+DROP TABLE IF EXISTS Card_Register;
 
 CREATE TABLE Card_Register (
     CardId BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -18,7 +22,7 @@ CREATE TABLE Credentials (
     CredentialsId BIGINT AUTO_INCREMENT PRIMARY KEY,
     Email VARCHAR(100) NOT NULL UNIQUE,
     PasswordHash VARCHAR(255) NOT NULL,
-    UserRole VARCHAR(50) NOT NULL DEFAULT MEMBER
+    UserRole VARCHAR(50) NOT NULL DEFAULT 'MEMBER'
 );
 
 CREATE TABLE Users (
@@ -30,18 +34,20 @@ CREATE TABLE Users (
 );
 
 CREATE TABLE User_Collection (
-    UserCollectionId BIGINT,
+    UserCollectionId BIGINT Auto_increment primary key,
     UserId BIGINT NOT NULL,
     CollectionVisibility VARCHAR(20) NOT NULL,
-    FOREIGN KEY (UserId) REFERENCES Users(UserId),
-    FOREIGN KEY (CardId) REFERENCES Card_Register(CardId)
+    FOREIGN KEY (UserId) REFERENCES Users(UserId)
 );
 
 CREATE TABLE User_Collection_Cards (
-    UserCollectionId BIGINT,
+    UserCollectionId BIGINT not null,
     CardId BIGINT NOT NULL,
     Quantity INT NOT NULL DEFAULT 1,
     CollectionCardStatus VARCHAR(20) NOT NULL,
+    primary key (UserCollectionId, CardId),
+    foreign key (UserCollectionId) references User_Collection(UserCollectionId),
+    FOREIGN KEY (CardId) REFERENCES Card_Register(CardId)
 );
 
 

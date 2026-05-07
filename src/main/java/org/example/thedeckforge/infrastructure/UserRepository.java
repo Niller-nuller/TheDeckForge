@@ -42,9 +42,9 @@ public class UserRepository implements IUserRepository {
 
     @Override
     public void createUser(User user) {
-        String sql = "INSERT INTO Users (Email, Password, Age, UsercredentialsId) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO Users (Name, Age, UsercredentialsId) VALUES (?, ?, ?)";
         long authorityId = getUserLoginId(user.getAuthority());
-        jdbcTemplate.update(sql, user.getAuthority().getEmail(), user.getAuthority().getPassword(), user.getAge(), authorityId);
+        jdbcTemplate.update(sql, user.getName(), user.getAge(), authorityId);
     }
 
     @Override

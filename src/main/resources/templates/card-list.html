@@ -10,7 +10,9 @@
 
             <div class="card-seachbar">
                 <form class="seach-bar" th:action="@{/cards/cardlist}" method="get">
-                    <input type="text" name="search" th:value="${search}" placeholder="Search Cards..">
+                    <label>
+                        <input type="text" name="search" th:value="${search}" placeholder="Search Cards..">
+                    </label>
                     <button type="submit">Search</button>
                 </form>
             </div>

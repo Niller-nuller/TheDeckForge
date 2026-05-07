@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Card Search</title>
+</head>
+<body>
+<div class="card-seachbar">
+    <h1>Card Search</h1>
+    <form class="seach-bar" th:action="@{cards/cardlist}" method="GET">
+        <input type="text" name="search" th:value="${search}" placeholder="Search Cards.." >
+        <button type="submit"> search</button>
+    </form>
+</div>
+
+</body>
+</html>

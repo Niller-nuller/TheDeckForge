@@ -47,8 +47,11 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
+
+                        // Public card browsing — now safe to use wildcard
+                        .requestMatchers("/cards/**").permitAll()
                         // Offentligt
-                        .requestMatchers("/", "/indux", "/login", "/register", "/css/**", "/js/**", "/images/**","/cards/**").permitAll()
+                        .requestMatchers("/", "/index", "/login", "/register", "/css/**", "/js/**", "/images/**","/cards/**").permitAll()
 
                         // Kun ADMIN
                         .requestMatchers("/admin/**", "/cards/new", "/cards/*/edit").hasRole("ADMIN")
@@ -58,6 +61,7 @@ public class SecurityConfig {
 
                         // MEMBER eller højere (alle indloggede)
                         .requestMatchers("/collection/**", "/decks/**", "/trades/**").hasRole("MEMBER")
+
 
 
                         .anyRequest().authenticated()

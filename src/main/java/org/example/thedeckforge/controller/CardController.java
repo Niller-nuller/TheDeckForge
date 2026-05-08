@@ -18,7 +18,7 @@ public class CardController {
     }
     @GetMapping("/card-list")
     public String cardListController(Model model){
-        model.addAttribute("card",cardService.);
+//        model.addAttribute("card",cardService.);
         return "card-list";
     }
     @GetMapping("/card-detail")

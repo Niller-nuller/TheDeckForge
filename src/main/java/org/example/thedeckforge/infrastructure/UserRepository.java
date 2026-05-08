@@ -21,7 +21,7 @@ public class UserRepository implements IUserRepository {
 
     //@Override
     public Authority logUserIn(Authority userAuth) {
-        String sql = "SELECT * FROM Credentials WHERE email = ?";
+        String sql = "SELECT * FROM Credentials WHERE Email = ?";
 
         return jdbcTemplate.queryForObject(sql,
                 (rs, rowNum) -> new Authority(

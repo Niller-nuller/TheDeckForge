@@ -1,6 +1,5 @@
 package org.example.thedeckforge.service;
 
-import jakarta.servlet.http.HttpSession;
 import org.example.thedeckforge.entity.Authority;
 import org.example.thedeckforge.entity.User;
 import org.example.thedeckforge.entity.interfaces.IUserRepository;
@@ -15,7 +14,7 @@ public class LogInService {
     private final IUserRepository userRepository;
     private final ValidationService validationService;
 
-@Autowired
+    @Autowired
     public LogInService(IUserRepository userRepository,  ValidationService validationService) {
         this.userRepository = userRepository;
         this.validationService = validationService;
@@ -29,10 +28,12 @@ public class LogInService {
         }
         throw new ValidationException("Invalid credentials");
     }
+
     private void validateLoginRequest(Authority loginRequest) {
         validationService.validate(ValidationType.EMAIL, loginRequest);
         validationService.validate(ValidationType.PASSWORD, loginRequest);
     }
+
     private boolean isValidCredentials(Authority loginRequest, Authority authLogin) {
         return authLogin != null && BCrypt.checkpw(loginRequest.getPassword(), authLogin.getPassword());
     }

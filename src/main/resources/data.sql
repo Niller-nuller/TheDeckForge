@@ -6,7 +6,7 @@
 -- --------------------------------------------------------
 -- Card_Register (25 real MTG cards from Scryfall)
 -- --------------------------------------------------------
-INSERT INTO Card_Register
+INSERT INTO Cards
     (CharacterName, CardType, Color, CardSet, Rarity, RuleText, PictureReference, ManaCost, ATK, DEF)
 VALUES
     ('Tempest Djinn', 'Creature', 'Blue', 'Foundations', 'Rare', 'Flying This creature gets +1/+0 for each basic Island you control.', '/img/cards/tempest_djinn.jpg', '{U}{U}{U}', 0, 4),
@@ -119,33 +119,23 @@ INSERT INTO Credentials (Email, PasswordHash, UserRole) VALUES
     ('alice@example.com',     '$2a$12$ABCdef1234abcXYZ5678abcXYZ9012abcXYZ3456abcXYZ7890ab', 'MEMBER'),
     ('bob@example.com',       '$2a$12$XYZabc5678abcXYZ9012abcXYZ3456abcXYZ7890abcXYZ1234ab', 'MEMBER'),
     ('carol@example.com',     '$2a$12$LMNopq9012abcXYZ3456abcXYZ7890abcXYZ1234abcXYZ5678ab', 'MEMBER'),
-    ('dave@example.com',      '$2a$12$QRStuv3456abcXYZ7890abcXYZ1234abcXYZ5678abcXYZ9012ab', 'ORGANIZER');
+    ('dave@example.com',      '$2a$12$QRStuv3456abcXYZ7890abcXYZ1234abcXYZ5678abcXYZ9012ab', 'MEMBER');
 
 -- --------------------------------------------------------
 -- Users
 -- --------------------------------------------------------
 INSERT INTO Users (Name, Age, UserCredentialsId) VALUES
-    ('Admin Account', 30, 1),
-    ('Alice Johnson', 25, 2),
-    ('Bob Smith',     32, 3),
-    ('Carol White',   28, 4),
-    ('Dave Brown',    35, 5);
+    ('Admin Account', '1995-02-01', 1),
+    ('Alice Johnson', '2000-07-12', 2),
+    ('Bob Smith',     '1990-06-07', 3),
+    ('Carol White',   '1989-05-07', 4),
+    ('Dave Brown',    '2010-07-08', 5);
 
 -- --------------------------------------------------------
--- User_Collection
+-- Collections
 -- --------------------------------------------------------
-INSERT INTO User_Collection (UserCollectionId, UserId, CollectionVisibility) VALUES
-    (1, 2, 'PUBLIC'),    -- Alice
-    (2, 3, 'PRIVATE'),   -- Bob
-    (3, 4, 'FRIENDS'),   -- Carol
-    (4, 5, 'PUBLIC');    -- Dave
-
--- --------------------------------------------------------
--- User_Collection_Cards (one row per (UserCollectionId, CardId) pair)
--- NOTE: schema has PK only on UserCollectionId — see status report
--- --------------------------------------------------------
-INSERT INTO User_Collection_Cards (UserCollectionId, CardId, Quantity, CollectionCardStatus) VALUES
-    (1, 1, 2, 'OWNED'),     -- Alice owns 2x Tempest Djinn
-    (2, 5, 1, 'OWNED'),     -- Bob owns 1x Royal Assassin
-    (3, 12, 1, 'WISHLIST'), -- Carol wants Soldier of the Pantheon
-    (4, 11, 1, 'OWNED');    -- Dave owns 1x Rekindling Phoenix
+INSERT INTO Collections (UserId,CardId) VALUES
+    (2, 1),    -- Alice
+    (3, 2),   -- Bob
+    (4, 3),   -- Carol
+    (5, 4);    -- Dave

@@ -2,7 +2,7 @@ package org.example.thedeckforge.service;
 
 import org.example.thedeckforge.entity.Card;
 import org.example.thedeckforge.entity.interfaces.ICardRepository;
-import org.example.thedeckforge.repository.CardRepositoryTest;
+import org.example.thedeckforge.repositorytest.CardRepositoryTest;
 import org.example.thedeckforge.validation.exceptions.CardValidationException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +15,6 @@ class CardServiceTest {
 
     @BeforeEach
     public void setUp(){
-        cardRepository = new CardRepositoryTest();
         cardRepository.populateCardList();
     }
 

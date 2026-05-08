@@ -3,10 +3,11 @@ package org.example.thedeckforge.infrastructure;
 import org.example.thedeckforge.entity.Card;
 import org.example.thedeckforge.entity.interfaces.ICardRepository;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-
+@Repository
 public class CardRepository implements ICardRepository {
 
     private JdbcTemplate jdbcTemplate;

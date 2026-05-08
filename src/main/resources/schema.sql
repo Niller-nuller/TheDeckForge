@@ -1,8 +1,8 @@
 DROP TABLE IF EXISTS DeckCards;
-DROP TABLE IF EXISTS Collection;
-DROP TABLE IF EXISTS Deck;
-DROP TABLE IF EXISTS Card;
-DROP TABLE IF EXISTS User;
+DROP TABLE IF EXISTS Collections;
+DROP TABLE IF EXISTS Decks;
+DROP TABLE IF EXISTS Cards;
+DROP TABLE IF EXISTS Users;
 DROP TABLE IF EXISTS Credentials;
 
 
@@ -20,39 +20,41 @@ create table Users (
                       UserCredentialsId BIGINT NOT NULL unique,
                       FOREIGN KEY (UserCredentialsId) REFERENCES Credentials(CredentialsId)
 );
+create table Cards (
+                       CardId BIGINT AUTO_INCREMENT PRIMARY KEY,
+                       CharacterName VARCHAR(100),
+                       CardType VARCHAR(50),
+                       Color VARCHAR(50),
+                       CardSet VARCHAR(100),
+                       Rarity VARCHAR(50),
+                       RuleText VARCHAR(1800),
+                       PictureReference VARCHAR(500),
+                       ManaCost VARCHAR(20),
+                       ATK INT,
+                       DEF INT
+);
+
 create table Collections(
                            collectionId BIGINT auto_increment primary key,
                            UserId bigint not null,
                            CardId BIGINT Not null,
-                           foreign key (UserId) references User(UserId),
-                           foreign key (CardId) references Card (CardId)
+                           foreign key (UserId) references Users(UserId),
+                           foreign key (CardId) references Cards(CardId)
 );
-create table Cards (
-                      CardId BIGINT AUTO_INCREMENT PRIMARY KEY,
-                      CharacterName VARCHAR(100),
-                      CardType VARCHAR(50),
-                      Color VARCHAR(50),
-                      CardSet VARCHAR(100),
-                      Rarity VARCHAR(50),
-                      RuleText VARCHAR(1800),
-                      PictureReference VARCHAR(500),
-                      ManaCost VARCHAR(20),
-                      ATK INT,
-                      DEF INT NOT NULL
-);
+
 
 create table Decks (
                       DeckName varchar(255) not null,
                       Format Varchar(50),
                       DeckId BIGINT auto_increment primary key,
                       UserId BIGINT not null,
-                      foreign key (UserId) references User(UserId)
+                      foreign key (UserId) references Users(UserId)
 );
 
 create table DeckCards(
                           DeckCardId bigint primary key,
                           DeckId bigint,
                           CardId bigInt,
-                          foreign key(DeckId) references Deck(DeckId),
-                          foreign key(CardId) references CardId(CardId)
+                          foreign key(DeckId) references Decks(DeckId),
+                          foreign key(CardId) references Cards(CardId)
 );

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Card List</title>
+</head>
+<body>
+    <div>
+        <h1>Card List</h1>
+
+            <div class="card-seachbar">
+                <form class="seach-bar" th:action="@{/cards/cardlist}" method="get">
+                    <label>
+                        <input type="text" name="search" th:value="${search}" placeholder="Search Cards..">
+                    </label>
+                    <button type="submit">Search</button>
+                </form>
+            </div>
+
+            <h3>Card List</h3>
+                <div th:if="${#lists.isEmpty(cardlist)}">
+                    <p>No cards found...</p>
+                </div>
+            <div th:if="${!#lists.isEmpty(cardlist)}">
+                <div th:each="card : ${cardlist}" th:object="${card}">
+
+                </div>
+            </div>
+    <h4> <a th:href="@{/}">Home</a></h4>
+
+
+</div>
+</body>
+</html>

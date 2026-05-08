@@ -4,9 +4,7 @@ public enum ValidationType {
     EMAIL,
     PASSWORD,
     USER_NAME,
-    USER_GENDER,
-    CAT,
-    LOGIN,
-    LIST,
-    CRITERIA
+    CARD,
+    DECK,
+    COLLECTION
 }

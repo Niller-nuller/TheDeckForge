@@ -1,7 +1,5 @@
 package org.example.thedeckforge.entity;
 
-import org.example.thedeckforge.entity.enums.Roles;
-
 import java.util.List;
 
 public class User {
@@ -11,6 +9,9 @@ public class User {
     private Collection collection;
     private List<Deck> decks;
     public User(String name, int age, Authority authority, Collection collection, List<Deck> decks) {
+        if(name.isEmpty()){
+            throw new IllegalArgumentException("User's name cannot be empty");
+        }
         this.name = name;
         this.age = age;
         this.authority = authority;

@@ -23,7 +23,7 @@ public class RegisterController {
 
     @GetMapping("/register")
     public String showRegisterForm(Model model) {
-        model.addAttribute("user", new User());
+        model.addAttribute("user", registerService.getUserForm());
         return "register";
     }
 

@@ -31,6 +31,9 @@ public class RegisterService {
         validationService.validate(ValidationType.EMAIL, registerRequest);
         validationService.validate(ValidationType.PASSWORD, registerRequest);
     }
-
+    public User getUserForm(){
+        User user = new User();
+        return user;
+    }
 
 }

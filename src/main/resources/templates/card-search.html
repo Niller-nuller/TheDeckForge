@@ -5,6 +5,7 @@
     <title>Card Search</title>
 </head>
 <body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
 <div class="card-seachbar">
     <h1>Card Search</h1>
     <form class="seach-bar" th:action="@{/cards/card-list}" method="get">

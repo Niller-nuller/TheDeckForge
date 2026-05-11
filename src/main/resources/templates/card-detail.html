@@ -5,6 +5,7 @@
     <title>Card Detail</title>
 </head>
 <body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
 <div class="card card-profile">
     <img th:src="${card.getPictureRef()}" alt="">
     <div class="card-body">

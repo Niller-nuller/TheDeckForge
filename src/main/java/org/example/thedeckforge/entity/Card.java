@@ -18,6 +18,8 @@ public class Card {
     private int attack;
     private int defense;
 
+    public Card(){}
+
     public Card(long id, String cardName,CardType cardTypes, String color, String set, String rarity, String ruleText, String pictureRef, String manaCost, int attack, int defense) {
         if(id <= 0){
             throw new CardValidationException("Card id must be greater than 0");

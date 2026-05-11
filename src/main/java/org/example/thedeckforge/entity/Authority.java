@@ -2,8 +2,6 @@ package org.example.thedeckforge.entity;
 
 import org.example.thedeckforge.entity.enums.Roles;
 
-import java.util.List;
-
 public class Authority {
     private String email;
     private String password;
@@ -27,7 +25,7 @@ public class Authority {
     public void setPassword(String password) {
         this.password = password;
     }
-    public Roles getRoles() {
+    public Roles getRole() {
         return roles;
     }
     public void setRoles(Roles roles) {

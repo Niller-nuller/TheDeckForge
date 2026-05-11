@@ -23,6 +23,9 @@
         <th:block th:if="${session.currentUser == null}">
             <a th:href="@{/login}" class="navbar-link navbar-link--accent">Login</a>
         </th:block>
+        <th:block th:if="${session.currentUser != null and session.currentUser.getAuthority().getRole() == 'ADMIN'}">
+            <a th:href="@{/admin/create-card-from}" class="navbar-link navbar-link--accent">Create new cards</a>
+        </th:block>
     </div>
 </nav>
 </body>

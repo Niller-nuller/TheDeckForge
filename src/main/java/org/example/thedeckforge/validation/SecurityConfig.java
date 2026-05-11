@@ -44,11 +44,11 @@ public class SecurityConfig {
 
     // === Sikkerhedsregler for HTTP requests ===
     @Bean // This build the security flow based on given rules (Which end-point are accessible by what role?, When to encode, and when to check role hierarchy)
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http){
         http
                 .authorizeHttpRequests(auth -> auth
                         // Offentligt
-                        .requestMatchers("/", "/login", "/register", "/css/**", "/js/**", "/img/**").permitAll()
+                        .requestMatchers("/", "/login", "/register", "/css/**", "/js/**", "/img/**","/cards", "/cards/**").permitAll()
 
                         // Kun ADMIN
                         .requestMatchers("/admin/**", "/cards/new", "/cards/*/edit").hasRole("ADMIN")

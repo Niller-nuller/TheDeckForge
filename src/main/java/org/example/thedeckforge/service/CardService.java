@@ -5,7 +5,7 @@ import org.example.thedeckforge.entity.Card;
 import org.example.thedeckforge.entity.interfaces.ICardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.*;
+import java.util.List;
 
 @Service
 public class CardService {
@@ -19,8 +19,14 @@ public class CardService {
     }
 
     public List<Card> getCardListBasedOnSearchCriteria(String searchCriteria){
-        return cardRepository.returnCardListByName(searchCriteria);
+        return cardRepository.returnCardListByName(changeToLikeOperator(searchCriteria));
     }
+
+    private String changeToLikeOperator(String searchCriteria){
+        return "%" + searchCriteria + "%";
+    }
+
+
 
 
 

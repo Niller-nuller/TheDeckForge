@@ -1,17 +1,22 @@
 package org.example.thedeckforge.infrastructure;
 
 import org.example.thedeckforge.entity.Card;
+import org.example.thedeckforge.entity.enums.CardType;
 import org.example.thedeckforge.entity.interfaces.ICardRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 import java.util.Optional;
+
 @Repository
 public class CardRepository implements ICardRepository {
 
-    private JdbcTemplate jdbcTemplate;
-
+    private final JdbcTemplate jdbcTemplate;
+    @Autowired
+    public CardRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
     @Override
     public void populateCardList() {
     }
@@ -20,9 +25,23 @@ public class CardRepository implements ICardRepository {
         return List.of();
     }
     @Override
-    public List<Card> returnCardListByName(String name) {
-
-        return List.of();
+    public List<Card> returnCardListByName(String searchCriteria) {
+        String sqlQuery = "SELECT * FROM Cards WHERE CharacterName LIKE ?";
+        return jdbcTemplate.query(sqlQuery,(rs, rowNum) ->
+                new Card(
+                        rs.getLong("CardId"),
+                        rs.getString("CharacterName"),
+                        CardType.valueOf(rs.getString("CardType").toUpperCase()),
+                        rs.getString("Color"),
+                        rs.getString("CardSet"),
+                        rs.getString("Rarity"),
+                        rs.getString("RuleText"),
+                        rs.getString("PictureReference"),
+                        rs.getString("ManaCost"),
+                        rs.getInt("ATK"),
+                        rs.getInt("DEF")
+                ), searchCriteria
+        );
     }
     @Override
     public Optional<Card> returnCardById(int id) {

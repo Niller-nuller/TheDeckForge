@@ -7,11 +7,17 @@ import org.example.thedeckforge.validation.exceptions.CardValidationException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.util.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.*;
+@SpringBootTest
+@Transactional
 class CardServiceTest {
 
     private ICardRepository cardRepository;
+
 
     @BeforeEach
     public void setUp(){

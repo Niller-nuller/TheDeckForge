@@ -9,21 +9,28 @@
         <h1>Card List</h1>
 
             <div class="card-seachbar">
-                <form class="seach-bar" th:action="@{/cards/cardlist}" method="get">
+                <form class="seach-bar" th:action="@{/cards/card-list}" method="get">
                     <label>
-                        <input type="text" name="search" th:value="${search}" placeholder="Search Cards..">
+                        <input type="text" name="searchTerm" placeholder="Search For Cards..">
                     </label>
                     <button type="submit">Search</button>
                 </form>
             </div>
 
             <h3>Card List</h3>
-                <div th:if="${#lists.isEmpty(cardlist)}">
+                <div th:if="${#lists.isEmpty(searchResults)}">
                     <p>No cards found...</p>
                 </div>
-            <div th:if="${!#lists.isEmpty(cardlist)}">
-                <div th:each="card : ${cardlist}" th:object="${card}">
-
+            <div th:if="${!#lists.isEmpty(searchResults)}">
+                <div th:each="card : ${searchResults}" th:object="${card}">
+                    <table class="card-table">
+                        <tbody>
+                        <tr>
+                            <td th:text="${card.cardName}"></td>
+                            <td><img th:src="${card.getPictureRef()}" alt="oh no"> </td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
     <h4> <a th:href="@{/}">Home</a></h4>

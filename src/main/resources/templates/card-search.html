@@ -7,8 +7,10 @@
 <body>
 <div class="card-seachbar">
     <h1>Card Search</h1>
-    <form class="seach-bar" th:action="@{cards/cardlist}" method="GET">
-        <input type="text" name="search" th:value="${search}" placeholder="Search Cards.." >
+    <form class="seach-bar" th:action="@{/cards/card-list}" method="get">
+        <label>
+            <input type="text" name="searchTerm" placeholder="Search For Cards.." >
+        </label>
         <button type="submit"> search</button>
     </form>
 </div>

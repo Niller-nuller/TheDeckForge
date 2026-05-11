@@ -8,7 +8,7 @@ import java.util.List;
 public class Card {
     private long id;
     private String cardName;
-    private List<CardType> cardTypes;
+    private CardType cardTypes;
     private String color;
     private String set;
     private String rarity;
@@ -18,14 +18,14 @@ public class Card {
     private int attack;
     private int defense;
 
-    public Card(long id, String cardName, List<CardType> cardTypes, String color, String set, String rarity, String ruleText, String pictureRef, String manaCost, int attack, int defense) {
+    public Card(long id, String cardName,CardType cardTypes, String color, String set, String rarity, String ruleText, String pictureRef, String manaCost, int attack, int defense) {
         if(id <= 0){
             throw new CardValidationException("Card id must be greater than 0");
         }
         if(cardName == null || cardName.isEmpty()){
             throw new CardValidationException("Card name cannot be empty");
         }
-        if(cardTypes == null || cardTypes.isEmpty()){
+        if(cardTypes == null){
             throw new CardValidationException("Card types cannot be empty");
         }
         if(color == null || color.isEmpty()){
@@ -42,9 +42,6 @@ public class Card {
         }
         if(pictureRef == null || pictureRef.isEmpty()){
             throw new CardValidationException("Card picture ref cannot be empty");
-        }
-        if(manaCost == null || manaCost.isEmpty()){
-            throw new CardValidationException("Card mana cost cannot be empty");
         }
         this.id = id;
         this.cardName = cardName;
@@ -70,10 +67,58 @@ public class Card {
     public void setCardName(String cardName) {
         this.cardName = cardName;
     }
-    public List<CardType> getCardTypes() {
+    public CardType getCardTypes() {
         return cardTypes;
     }
-    public void setCardTypes(List<CardType> cardTypes) {
+    public void setCardType(CardType cardTypes) {
         this.cardTypes = cardTypes;
+    }
+    public String getColor() {
+        return color;
+    }
+    public void setColor(String color) {
+        this.color = color;
+    }
+    public String getSet() {
+        return set;
+    }
+    public void setSet(String set) {
+        this.set = set;
+    }
+    public String getRarity() {
+        return rarity;
+    }
+    public void setRarity(String rarity) {
+        this.rarity = rarity;
+    }
+    public String getRuleText() {
+        return ruleText;
+    }
+    public void setRuleText(String ruleText) {
+        this.ruleText = ruleText;
+    }
+    public String getPictureRef() {
+        return pictureRef;
+    }
+    public void setPictureRef(String pictureRef) {
+        this.pictureRef = pictureRef;
+    }
+    public String getManaCost() {
+        return manaCost;
+    }
+    public void setManaCost(String manaCost) {
+        this.manaCost = manaCost;
+    }
+    public int getAttack(){
+        return attack;
+    }
+    public void setAttack(int attack){
+        this.attack = attack;
+    }
+    public int getDefense(){
+        return defense;
+    }
+    public void setDefense(int defense){
+        this.defense = defense;
     }
 }

@@ -34,7 +34,7 @@ create table Cards (
                        DEF INT
 );
 
-create table Collections(
+create table Collections (
                            collectionId BIGINT auto_increment primary key,
                            UserId bigint not null,
                            CardId BIGINT Not null,
@@ -51,7 +51,7 @@ create table Decks (
                       foreign key (UserId) references Users(UserId)
 );
 
-create table DeckCards(
+create table DeckCards (
                           DeckCardId bigint primary key,
                           DeckId bigint,
                           CardId bigInt,

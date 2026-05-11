@@ -30,6 +30,6 @@ public class AdminController {
     @GetMapping("/create-card")
     public String createCard(@ModelAttribute Card card, @SessionAttribute User adminUser) {
         cardService.saveCard(card, adminUser);
-        return "redirect:/admin/create-card-form";
+        return "create-card-form";
     }
 }

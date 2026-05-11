@@ -2,6 +2,7 @@ package org.example.thedeckforge.service;
 import org.example.thedeckforge.entity.Deck;
 import org.example.thedeckforge.entity.User;
 import org.example.thedeckforge.entity.interfaces.IDeckRepository;
+import org.example.thedeckforge.infrastructure.DeckRepository;
 import org.example.thedeckforge.infrastructure.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,10 +12,10 @@ import java.util.ArrayList;
 
 @Service
 public class DeckService {
-private final IDeckRepository deckRepository;
+private final DeckRepository deckRepository;
 private final UserRepository userRepository;
 @Autowired
-public DeckService(IDeckRepository deckRepository, UserRepository userRepository) {
+public DeckService(DeckRepository deckRepository, UserRepository userRepository) {
     this.deckRepository = deckRepository;
     this.userRepository = userRepository;
 }

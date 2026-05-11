@@ -30,9 +30,9 @@ public class UserRepository implements IUserRepository {
 
         return jdbcTemplate.queryForObject(sql,
                 (rs, rowNum) -> new Authority(
-                        rs.getString("email"),
-                        rs.getString("password"),
-                        Roles.valueOf(rs.getString("role"))
+                        rs.getString("Email"),
+                        rs.getString("PasswordHash"),
+                        Roles.valueOf(rs.getString("UserRole"))
                 ),
                 userAuth.getEmail()
         );
@@ -40,13 +40,13 @@ public class UserRepository implements IUserRepository {
     private RowMapper<User> userRowMapper() {
         return (rs, rowNum) -> {
             Authority authority = new Authority(
-                    rs.getString("email"),
+                    rs.getString("Email"),
                     "",
                     Roles.valueOf(rs.getString("UserRole"))
             );
             User user = new User();
-            user.setName(rs.getString("name"));
-            user.setAge(rs.getInt("Age"));
+            user.setName(rs.getString("Name"));
+            user.setAge(rs.getDate("Age").toLocalDate());
             user.setAuthority(authority);
             return user;
         };

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DeckCreator</title>
+</head>
+<body>
+<form th:action="@{/createDeck}" th:object="${deck}" method="post">
+
+    <div class="field">
+        <label for="name">Deck Name:</label><br>
+        <input type="text" id="name" th:field="*{name}" placeholder="for example dark destroyer deck" required><br><br>
+    </div>
+    <div class ="field-row">
+        <div class="field">
+            <label for="formatType">Format</label>
+            <select id="formatType" th:field="*{format}" required>
+                <option value="">-- Choose --</option>
+                <option th:each="f : ${formatType}"
+                        th:value="${f}"
+                        th:text="${f}"></option>
+            </select>
+        </div>
+    </div>
+    <button type="submit">Create Deck</button>
+</form>
+</body>
+</html>

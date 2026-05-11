@@ -40,11 +40,17 @@ public class User {
     public void setCollection(Collection collection) {
         this.collection = collection;
     }
+    public void addDeck(Deck deck){
+        decks.add(deck);
+    }
     public void setDecks(List<Deck> decks) {
         this.decks = decks;
     }
     public String getName() {
         return name;
+    }
+    public void setName() {
+        this.name = name;
     }
     public void setName(String name) {
         this.name = name;

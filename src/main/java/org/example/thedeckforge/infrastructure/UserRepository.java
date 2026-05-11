@@ -6,9 +6,14 @@ import org.example.thedeckforge.entity.User;
 import org.example.thedeckforge.entity.enums.Roles;
 import org.example.thedeckforge.entity.interfaces.IUserRepository;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class UserRepository implements IUserRepository {
@@ -32,11 +37,45 @@ public class UserRepository implements IUserRepository {
                 userAuth.getEmail()
         );
     }
+    private RowMapper<User> userRowMapper() {
+        return (rs, rowNum) -> {
+            Authority authority = new Authority(
+                    rs.getString("email"),
+                    "",
+                    Roles.valueOf(rs.getString("UserRole"))
+            );
+            User user = new User();
+            user.setName(rs.getString("name"));
+            user.setAge(rs.getInt("Age"));
+            user.setAuthority(authority);
+            return user;
+        };
+    }
+    public Optional<User> findByEmail(String email) {
+        String sql = """
+                SELECT u.*, c.Email, c.UserRole
+                FROM Users u
+                JOIN Credentials c ON u.UserCredentialsId = c.CredentialsId
+                WHERE c.Email = ?
+                """;
+        List<User> results = jdbcTemplate.query(sql, userRowMapper(), email);
+        return results.stream().findFirst();
+    }
 
+    public Optional<Authority> FindAuthorityByEmail(String email) {
+        String sql = "SELECT * FROM Credentials WHERE Email = ?";
+        List<Authority> results = jdbcTemplate.query(sql, (rs, rowNum) ->
+                new Authority(
+                        rs.getString("Email"),
+                        rs.getString("PasswordHash"),
+                        Roles.valueOf(rs.getString("UserRole"))
+                ), email);
+        return results.stream().findFirst();
+    }
 
     @Override
     public void createUserAuthority(Authority userAuth) {
-        String sql = "INSERT INTO Credentials (email, password) VALUES (?, ?)";
+        String sql = "INSERT INTO Credentials (Email, PasswordHash) VALUES (?, ?)";
         jdbcTemplate.update(sql, userAuth.getEmail(), userAuth.getPassword());
     }
 
@@ -60,5 +99,10 @@ public class UserRepository implements IUserRepository {
         return jdbcTemplate.queryForObject(sql,
                 (rs, rowNum) -> rs.getLong("CredentialsId"), userAuth.getEmail()
         );
+    }
+    @Override
+    public Long getUserId(User user){
+        String sql = "SELECT UsersId FROM Users LEFT JOIN Credentials ON Users.UserCrednetialsId = Credentials.CredentialsId WHERE Email = ?";
+        return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> rs.getLong("UserId"), user.getAuthority().getEmail());
     }
 }

@@ -44,9 +44,24 @@ public class CardRepository implements ICardRepository {
         );
     }
     @Override
-    public Optional<Card> returnCardById(int id) {
-        return Optional.empty();
+    public Optional<Card> returnCardById(long id) {
+        String sqlQuery = "SELECT * FROM Cards WHERE CardId = ?";
+        return Optional.ofNullable(jdbcTemplate.queryForObject(sqlQuery, (rs, rowNum) ->
+                new Card(rs.getLong("CardId"),
+                        rs.getString("CharacterName"),
+                        CardType.valueOf(rs.getString("CardType").toUpperCase()),
+                        rs.getString("Color"),
+                        rs.getString("CardSet"),
+                        rs.getString("Rarity"),
+                        rs.getString("RuleText"),
+                        rs.getString("PictureReference"),
+                        rs.getString("ManaCost"),
+                        rs.getInt("ATK"),
+                        rs.getInt("DEF")
+                ), id
+        ));
     }
+
     @Override
     public Optional<Card> returnCardByName(String name) {
         return Optional.empty();

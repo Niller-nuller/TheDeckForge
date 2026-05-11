@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
@@ -32,8 +33,10 @@ public class CardController {
         model.addAttribute("searchTerm", searchTerm);
         return "card-list";
     }
-    @GetMapping("/card-detail")
-    public String cardDetail(Model model){
+    @GetMapping("/card-detail/{id}")
+    public String cardDetail(@PathVariable long id, Model model){
+        Card card = cardService.getCardById(id);
+        model.addAttribute("card", card);
         return "card-detail";
     }
 }

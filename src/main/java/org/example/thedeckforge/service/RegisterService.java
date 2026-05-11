@@ -32,8 +32,7 @@ public class RegisterService {
         validationService.validate(ValidationType.PASSWORD, registerRequest);
     }
     public User getUserForm(){
-        User user = new User();
-        return user;
+        return new User();
     }
 
 }

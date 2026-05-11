@@ -29,6 +29,6 @@ public class LoginController {
 
         session.setAttribute("currentUser", logInService.login(authority));
 
-        return "redirect:/";
+        return "redirect:/index";
     }
 }

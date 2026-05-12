@@ -14,7 +14,7 @@
     <h1>Vær sød at logge ind</h1>
     <form th:action="@{/login}" th:object="${Authority}" method="post">
         <label for="email">Email:</label><br>
-        <input type="text" id="email" th:field="*{email}" required><br><br>
+        <input type="text" id="email" th:field="*{username}" required><br><br>
 
         <label for="password">Password:</label><br>
         <input type="password" id="password" th:field="*{password}" required><br><br>

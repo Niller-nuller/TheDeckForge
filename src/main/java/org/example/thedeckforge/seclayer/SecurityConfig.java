@@ -1,4 +1,4 @@
-package org.example.thedeckforge.validation;   // <-- byt til "config" eller "security", "validation" giver ikke mening
+package org.example.thedeckforge.seclayer;   // <-- byt til "config" eller "security", "validation" giver ikke mening
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -28,13 +28,13 @@ public class DeckRepository implements IDeckRepository {
         ArrayList<Integer> deckIds = new ArrayList<>();
         jdbcTemplate.queryForList(deckIdSql,user.getAuthority().getEmail(),deckIds);
         String deckInfoSql = "SELECT * FROM Decks WHERE DeckID = ?";
-        String deckContensSql = "SELECT DeckName, DeckFormat FROM Cards RIGHT JOIN DeckkCards ON Cards.CardId = DeckkCards.CardId WHERE DeckId = ?";
+        String deckContentsSql = "SELECT * FROM Cards LEFT JOIN DeckkCards ON Cards.CardId = DeckkCards.CardId WHERE DeckId = ?";
         List<Deck> decks = new ArrayList<>();
         for (Integer deckId : deckIds) {
             Deck deck = jdbcTemplate.queryForObject(deckInfoSql,(rs, rowNum) -> new Deck(rs.getString("DeckName"), FormatType.valueOf(rs.getString("DeckFormat"))), deckId);
-            ArrayList<Card> cardDeck = new ArrayList<>();
-            jdbcTemplate.queryForList(deckContensSql,deckId,deck);
-            deck.setCards(cardDeck);
+            ArrayList<Card> cards = new ArrayList<>();
+            jdbcTemplate.queryForList(deckContentsSql,deckId,cards);
+            deck.setCards(cards);
             decks.add(deck);
         }
         return decks;

@@ -20,7 +20,7 @@
         <input type="password" id="password" th:field="*{password}" required><br><br>
 
         <button type="submit">Log ind</button>
-        <a href="/register"><button type="button">Register</button></a>
+        <a th:href="@{/register}" class="navbar-link navbar-link--accent">Register</a>
     </form>
 </div>
 <h3> <a th:href="@{/}">Home</a></h3>

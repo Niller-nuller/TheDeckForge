@@ -20,7 +20,7 @@ public class LoginController {
     }
     @GetMapping("/login")
     public String login(Model model) {
-        model.addAttribute("Authority", new Authority());
+        model.addAttribute("Authority", logInService.getLoginRequest());
         return "login";
     }
 }

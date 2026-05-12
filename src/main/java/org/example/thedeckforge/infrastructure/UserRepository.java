@@ -43,7 +43,7 @@ public class UserRepository implements IUserRepository {
     public void createUser(User user) {
         String sql = "INSERT INTO Users (Name, Age, UserCredentialsId) VALUES (?, ?, ?)";
         long authorityId = getUserLoginId(user.getAuthority());
-        jdbcTemplate.update(sql, user.getName(), user.getAge(), authorityId);
+        jdbcTemplate.update(sql, user.getName(), user.getDateOfBirth(), authorityId);
     }
 
     @Override
@@ -96,5 +96,10 @@ public class UserRepository implements IUserRepository {
             user.setId(rs.getLong("UserId"));
             return user;
         }, email);
+    }
+    @Override
+    public Long getUserId(User user){
+        String sql = "SELECT UsersId FROM Users LEFT JOIN Credentials ON Users.UserCrednetialsId = Credentials.CredentialsId WHERE Email = ?";
+        return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> rs.getLong("UserId"), user.getAuthority().getEmail());
     }
 }

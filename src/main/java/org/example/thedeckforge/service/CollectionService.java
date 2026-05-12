@@ -2,6 +2,7 @@
 package org.example.thedeckforge.service;
 
 import org.example.thedeckforge.entity.Card;
+import org.example.thedeckforge.entity.interfaces.ICollectionRepository;
 import org.example.thedeckforge.infrastructure.CollectionRepository;
 import org.springframework.stereotype.Service;
 

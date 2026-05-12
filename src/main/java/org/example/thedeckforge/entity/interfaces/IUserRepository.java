@@ -14,4 +14,5 @@ public interface IUserRepository {
     User getUserFromAuth(Authority userAuth);
     Long getUserLoginId(Authority userAuth);
     User findByEmail(String email);
+    Long getUserId(User user);
 }

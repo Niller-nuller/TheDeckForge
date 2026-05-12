@@ -1,5 +1,5 @@
 package org.example.thedeckforge.controller;
-
+import org.springframework.security.core.Authentication;
 import org.example.thedeckforge.entity.Deck;
 import org.example.thedeckforge.entity.enums.FormatType;
 import org.example.thedeckforge.service.DeckService;
@@ -28,8 +28,8 @@ public class DeckCreatorController{
         return "deck-creator";
     }
     @PostMapping("/deck-creator")
-    public String CreateDeck(@ModelAttribute("deck") Deck deck){
-        deckService.createDeck(deck);
+    public String CreateDeck(@ModelAttribute("deck") Deck deck, Authentication auth){
+        deckService.createDeck(deck, auth);
         return "redirect:/deck-editor";
     }
 

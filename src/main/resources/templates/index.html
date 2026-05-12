@@ -1,15 +1,17 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="da" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security6">
 <head>
     <meta charset="UTF-8">
-    <title>TheDeckForge Index Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deck Forge Index</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<h1>TheDeckForge Index Page</h1>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<h1>Velkommen til Deckforge</h1>
 
 
-<h2><a th:href="@{/login}"> Login</a></h2>
-<h2><a th:href="@{/register}"> register</a></h2>
-<h2><a th:href="@{/cards/card-search}">search for cards</a></h2>
 </body>
 </html>

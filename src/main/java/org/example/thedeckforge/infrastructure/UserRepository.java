@@ -1,14 +1,13 @@
 package org.example.thedeckforge.infrastructure;
 
-import com.zaxxer.hikari.util.Credentials;
 import org.example.thedeckforge.entity.Authority;
 import org.example.thedeckforge.entity.User;
 import org.example.thedeckforge.entity.enums.Roles;
 import org.example.thedeckforge.entity.interfaces.IUserRepository;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 
 @Repository
 public class UserRepository implements IUserRepository {
@@ -25,9 +24,9 @@ public class UserRepository implements IUserRepository {
 
         return jdbcTemplate.queryForObject(sql,
                 (rs, rowNum) -> new Authority(
-                        rs.getString("email"),
-                        rs.getString("password"),
-                        Roles.valueOf(rs.getString("role"))
+                        rs.getString("Email"),
+                        rs.getString("PasswordHash"),
+                        Roles.valueOf(rs.getString("UserRole"))
                 ),
                 userAuth.getEmail()
         );
@@ -36,22 +35,35 @@ public class UserRepository implements IUserRepository {
 
     @Override
     public void createUserAuthority(Authority userAuth) {
-        String sql = "INSERT INTO Credentials (email, password) VALUES (?, ?)";
+        String sql = "INSERT INTO credentials (Email, PasswordHash) VALUES (?, ?)";
         jdbcTemplate.update(sql, userAuth.getEmail(), userAuth.getPassword());
     }
 
     @Override
     public void createUser(User user) {
-        String sql = "INSERT INTO Users (Name, Age, UsercredentialsId) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO Users (Name, Age, UserCredentialsId) VALUES (?, ?, ?)";
         long authorityId = getUserLoginId(user.getAuthority());
         jdbcTemplate.update(sql, user.getName(), user.getAge(), authorityId);
     }
 
     @Override
     public User getUserFromAuth(Authority userAuth) {
-        String sql = "SELECT * FROM Users LEFT JOIN Credentials ON Users.UserCredentialsId = Credentials.CredentialsId WHERE Credentials.Email = ?";
-        return jdbcTemplate.queryForObject(sql,(rs, rowNum) -> new User(rs.getString("Name"), rs.getInt("Age"), new Authority(rs.getString("Email"), "", Roles.valueOf(rs.getString("UserRole")))
-        ), userAuth.getEmail());
+        String sql = """
+        SELECT u.UserId, u.Name, u.Age, c.Email, c.UserRole
+        FROM Users u
+        JOIN Credentials c ON u.UserCredentialsId = c.CredentialsId
+        WHERE c.Email = ?
+        """;
+        return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> {
+            Authority auth = new Authority(
+                    rs.getString("Email"),
+                    "",
+                    Roles.valueOf(rs.getString("UserRole"))
+            );
+            User u = new User(rs.getString("Name"), rs.getDate("Age").toLocalDate(), auth);
+            u.setId(rs.getLong("UserId"));
+            return u;
+        }, userAuth.getEmail());
     }
 
     @Override
@@ -60,5 +72,29 @@ public class UserRepository implements IUserRepository {
         return jdbcTemplate.queryForObject(sql,
                 (rs, rowNum) -> rs.getLong("CredentialsId"), userAuth.getEmail()
         );
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        String sql = """
+        SELECT u.UserId, u.Name, u.Age, c.Email, c.UserRole
+        FROM Users u
+        JOIN Credentials c ON u.UserCredentialsId = c.CredentialsId
+        WHERE c.Email = ?
+        """;
+        return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> {
+            Authority auth = new Authority(
+                    rs.getString("Email"),
+                    "",
+                    Roles.valueOf(rs.getString("UserRole"))
+            );
+            User user = new User(
+                    rs.getString("Name"),
+                    rs.getDate("Age").toLocalDate(),
+                    auth
+            );
+            user.setId(rs.getLong("UserId"));
+            return user;
+        }, email);
     }
 }

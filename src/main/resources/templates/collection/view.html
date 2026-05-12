@@ -1,0 +1,21 @@
+<h1 th:text="|${user.name}'s samling|">Jonas's samling</h1>
+<p class="meta">
+    <span th:text="${user.collection.cardCount}">0</span> kort i alt
+</p>
+
+<div th:if="${user.collection.cards.isEmpty()}" class="empty">
+    Denne bruger ejer ingen kort endnu.
+</div>
+
+<div th:unless="${user.collection.cards.isEmpty()}" class="grid">
+    <div th:each="card : ${user.collection.cards}" class="card">
+        <img th:src="${card.pictureRef}" th:alt="${card.cardName}">
+        <div class="card-body">
+            <div class="card-name" th:text="${card.cardName}">Name</div>
+            <div class="card-meta">
+                <span th:text="${card.rarity}">Rare</span> ·
+                <span th:text="${card.color}">Blue</span>
+            </div>
+        </div>
+    </div>
+</div>

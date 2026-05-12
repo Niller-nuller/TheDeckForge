@@ -111,15 +111,15 @@ VALUES
     ('Tundra', 'Land', 'Gray', 'Vintage Masters', 'Rare', '({T}: Add {W} or {U}.)', '/img/cards/tundra.jpg', '', NULL, 0);
 
 -- --------------------------------------------------------
--- Credentials (passwords are bcrypt hashes of 'Password123!')
--- WARNING: replace these with REAL bcrypt hashes before production
+-- Credentials
+-- All 5 users have password: Password123!
 -- --------------------------------------------------------
 INSERT INTO Credentials (Email, PasswordHash, UserRole) VALUES
-    ('admin@deckforge.com',   '$2a$12$KIXnHs3PBFMTabcXyz1234abcXYZ5678abcXYZ9012abcXYZ3456ab', 'ADMIN'),
-    ('alice@example.com',     '$2a$12$ABCdef1234abcXYZ5678abcXYZ9012abcXYZ3456abcXYZ7890ab', 'MEMBER'),
-    ('bob@example.com',       '$2a$12$XYZabc5678abcXYZ9012abcXYZ3456abcXYZ7890abcXYZ1234ab', 'MEMBER'),
-    ('carol@example.com',     '$2a$12$LMNopq9012abcXYZ3456abcXYZ7890abcXYZ1234abcXYZ5678ab', 'MEMBER'),
-    ('dave@example.com',      '$2a$12$QRStuv3456abcXYZ7890abcXYZ1234abcXYZ5678abcXYZ9012ab', 'MEMBER');
+    ('admin@deckforge.com',   '$2b$12$vZMB9D7V3Fj79eOD1ej36OVU6HkidCd4KQ7s1RYRW3tRhXI4JV89O', 'ADMIN'),
+    ('alice@example.com',     '$2b$12$ALiUpGsWhpn7A8GaCp0UVO2yI/cQE/hNq8jJnkRkv7s2BzCbKXEOq', 'MEMBER'),
+    ('bob@example.com',       '$2b$12$0Br4CUiL.Rhn5WUyuPqAhel0L6w9GZ5sKpW1z3C2B63uZttSzubka', 'MEMBER'),
+    ('carol@example.com',     '$2b$12$5Gsn39ZeWDNf/Dck.i3UK.77jb50SIbqaBLKOb0Lw8Co/MKu0qs3O', 'MEMBER'),
+    ('dave@example.com',      '$2b$12$Nrnlo.cUSVq8k9sb0QaJ9.FXlm3dtwrbIFje49nmgKQXnZYJ/Pso.', 'MEMBER');
 
 -- --------------------------------------------------------
 -- Users

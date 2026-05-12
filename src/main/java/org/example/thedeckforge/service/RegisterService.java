@@ -19,7 +19,7 @@ public class RegisterService {
         this.validationService = validationService;
     }
     public User register(User user) {
-        validateRegisterRequest(user);
+        //validateRegisterRequest(user);
         String hashed = BCrypt.hashpw(user.getAuthority().getPassword(), BCrypt.gensalt());
         user.getAuthority().setPassword(hashed);
         userRepository.createUserAuthority(user.getAuthority());

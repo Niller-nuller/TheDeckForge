@@ -1,10 +1,83 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="da" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security6">
 <head>
     <meta charset="UTF-8">
-    <title>Card Detail</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="|${card.cardName} - Deckforge|">Kort</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<section class="card-detail-page">
+    <div class="container">
+
+        <a th:href="@{/cards/card-search}" class="hero-eyebrow"
+           style="display: inline-block; margin-bottom: var(--space-6);">
+            ‹ Tilbage til søgning
+        </a>
+
+        <div class="card-detail-layout">
+
+            <div class="card-detail-art">
+                <img th:src="${card.pictureRef}" th:alt="${card.cardName}">
+            </div>
+
+            <div class="card-detail-info">
+                <span class="hero-eyebrow"
+                      th:text="${card.cardTypes}">Creature</span>
+                <h1 th:text="${card.cardName}">Card Name</h1>
+                <p class="card-detail-tagline" th:text="${card.set}">Foundations</p>
+
+                <dl class="card-detail-meta-grid">
+                    <dt>Sjældenhed</dt>
+                    <dd>
+                        <span class="rarity-pill"
+                              th:classappend="'rarity-' + ${#strings.toLowerCase(card.rarity)}"
+                              th:text="${card.rarity}">Rare</span>
+                    </dd>
+
+                    <dt>Farve</dt>
+                    <dd th:text="${card.color}">Blue</dd>
+
+                    <dt>Type</dt>
+                    <dd th:text="${card.cardTypes}">Creature</dd>
+
+                    <dt>Mana cost</dt>
+                    <dd>
+                        <span th:if="${!#strings.isEmpty(card.manaCost)}" th:text="${card.manaCost}">{2}{R}</span>
+                        <span th:if="${#strings.isEmpty(card.manaCost)}">&mdash;</span>
+                    </dd>
+
+                    <dt th:if="${card.attack > 0 or card.defense > 0}">Power / Toughness</dt>
+                    <dd th:if="${card.attack > 0 or card.defense > 0}"
+                        th:text="|${card.attack} / ${card.defense}|">2 / 3</dd>
+                </dl>
+
+                <div class="card-rule-text" th:text="${card.ruleText}">
+                    Card rule text goes here.
+                </div>
+
+                <div class="hero-actions" style="justify-content: flex-start; margin-top: var(--space-8);"
+                     sec:authorize="isAuthenticated()">
+                    <button type="button" class="btn btn-primary">+ Tilføj til samling</button>
+                    <button type="button" class="btn btn-secondary">Tilføj til deck</button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-ornament">⚜ ✦ ⚜</div>
+        <p class="footer-text">Deckforge · Anno MMXXVI</p>
+    </div>
+</footer>
 
 </body>
 </html>

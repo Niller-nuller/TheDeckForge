@@ -1,40 +1,61 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="da" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security6">
 <head>
     <meta charset="UTF-8">
-    <title>Create Account</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opret konto — Deckforge</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<h1>Create Account</h1>
 
+<div th:replace="~{fragments/navbar :: navbar}"></div>
 
-<form th:action="@{/register}" th:object="${user}" method="post">
+<section class="auth-page">
+    <div class="auth-card">
+        <div class="auth-header">
+            <span class="hero-eyebrow">✦ Tilslut dig ✦</span>
+            <h1>Opret konto</h1>
+            <p class="auth-subtitle">Bliv en del af samlingen</p>
+        </div>
 
-    <div class="field">
-        <label for="email">Email:</label><br>
-        <input type="text" id="email" th:field="*{authority.email}" placeholder="F.eks. bruger@gmail.com" required><br><br>
+        <form th:action="@{/register}" th:object="${user}" method="post">
+            <div class="form-field">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" id="email" th:field="*{authority.email}"
+                       class="form-input" placeholder="dig@example.com" required autofocus>
+            </div>
+
+            <div class="form-field">
+                <label for="password" class="form-label">Adgangskode</label>
+                <input type="password" id="password" th:field="*{authority.password}"
+                       class="form-input" placeholder="Vælg en stærk adgangskode" required>
+            </div>
+
+            <div class="form-field">
+                <label for="name" class="form-label">Navn</label>
+                <input type="text" id="name" th:field="*{name}"
+                       class="form-input" placeholder="Dit fulde navn" required>
+            </div>
+
+            <div class="form-field">
+                <label for="dateOfBirth" class="form-label">Fødselsdato</label>
+                <input type="date" id="dateOfBirth" th:field="*{dateOfBirth}"
+                       class="form-input" required>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Opret konto</button>
+            </div>
+        </form>
+
+        <div class="auth-divider">eller</div>
+
+        <p class="auth-footer">
+            Har du allerede en konto? <a th:href="@{/login}">Log ind</a>
+        </p>
     </div>
-    <div class="field">
-        <label for="password">Password:</label><br>
-        <input type="password" id="password" th:field="*{authority.password}" required><br><br>
-    </div>
-    <div class="field">
-        <label for="name">Navn:</label><br>
-        <input type="text" id="name" th:field="*{name}" required><br><br>
-    </div>
-    <div class="field">
-        <label for="age">Alder:</label><br>
-        <input type="text" id="age" th:field="*{age}" required><br><br>
-    </div>
-    <button type="submit">Opret</button>
+</section>
 
-</form>
-
-<div class="divider">Eller</div>
-
-<h3><a th:href="@{/}">Til Start</a></h3>
-
-<h3><a th:href="@{login}">Til Login</a></h3>
 </body>
 </html>

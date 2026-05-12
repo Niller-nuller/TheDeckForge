@@ -1,19 +1,41 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="da" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security6">
 <head>
     <meta charset="UTF-8">
-    <title>Card Search</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Søg kort — Deckforge</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<div class="card-seachbar">
-    <h1>Card Search</h1>
-    <form class="seach-bar" th:action="@{/cards/card-list}" method="get">
-        <label>
-            <input type="text" name="searchTerm" placeholder="Search For Cards.." >
-        </label>
-        <button type="submit"> search</button>
-    </form>
-</div>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<section class="search-page">
+    <div class="container">
+        <header class="section-header">
+            <span class="hero-eyebrow">✦ Det Store Bibliotek ✦</span>
+            <h2>Søg kort</h2>
+            <p class="section-subtitle">
+                Find ethvert kort i samlingen — efter navn, sæt eller sjældenhed.
+            </p>
+        </header>
+
+        <form class="search-bar" th:action="@{/cards/card-list}" method="get">
+            <input type="text" name="searchTerm"
+                   class="form-input"
+                   placeholder="Skriv et kortnavn..." autofocus>
+            <button type="submit" class="btn btn-primary">Søg</button>
+        </form>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-ornament">⚜ ✦ ⚜</div>
+        <p class="footer-text">Deckforge · Anno MMXXVI</p>
+    </div>
+</footer>
 
 </body>
 </html>

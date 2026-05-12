@@ -4,14 +4,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deck Forge Index</title>
-
+    <title>Deckforge</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<div th:replace="~{fragments/navbar :: navbar}"></div>
-<h1>Velkommen til Deckforge</h1>
 
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<section class="hero">
+    <div class="hero-content">
+        <span class="hero-eyebrow">✦ Anno MMXXVI ✦</span>
+        <h1>Deckforge</h1>
+        <p class="hero-tagline">
+            Hvor samlingen møder spillebordet — og kortene finder hjem.
+        </p>
+        <div class="hero-actions">
+            <a th:href="@{/cards/card-search}" class="btn btn-primary">Udforsk kort</a>
+            <a th:href="@{/collection}" class="btn btn-secondary" sec:authorize="isAuthenticated()">Min samling</a>
+            <a th:href="@{/login}" class="btn btn-secondary" sec:authorize="!isAuthenticated()">Log ind</a>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="container">
+        <div class="section-header">
+            <h2>De fem søjler</h2>
+            <p class="section-subtitle">Alt hvad en samler og spiller har brug for — under én ramme.</p>
+        </div>
+
+        <div class="stats">
+            <div class="stat">
+                <span class="stat-value">⌬</span>
+                <span class="stat-label">Samling</span>
+            </div>
+            <div class="stat">
+                <span class="stat-value">⚔</span>
+                <span class="stat-label">Decks</span>
+            </div>
+            <div class="stat">
+                <span class="stat-value">✦</span>
+                <span class="stat-label">Events</span>
+            </div>
+            <div class="stat">
+                <span class="stat-value">⇌</span>
+                <span class="stat-label">Bytter</span>
+            </div>
+            <div class="stat">
+                <span class="stat-value">♛</span>
+                <span class="stat-label">Resultater</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-ornament">⚜ ✦ ⚜</div>
+        <p class="footer-text">Deckforge · Anno MMXXVI · For samlere og spillere</p>
+    </div>
+</footer>
 
 </body>
 </html>

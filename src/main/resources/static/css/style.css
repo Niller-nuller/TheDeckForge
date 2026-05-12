@@ -1,0 +1,894 @@
+/* =============================================================
+   ARCANUM — Stylesheet for samlerkort-hjemmeside
+   Æstetik: Mørklilla okkult, gylden ornamentik, magisk dybde
+   ============================================================= */
+
+/* -------------------------------------------------------------
+   1. FONTS
+   ------------------------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* -------------------------------------------------------------
+   2. DESIGN TOKENS
+   ------------------------------------------------------------- */
+:root {
+    /* Farver — natlige toner */
+    --void:           #0a0612;   /* dybeste baggrund */
+    --midnight:       #14092a;   /* primær baggrund */
+    --abyss:          #1d0f3d;   /* sektion baggrund */
+    --violet:         #2d1b5e;   /* kort baggrund */
+    --amethyst:       #5b3a9e;   /* accent lilla */
+    --mystic:         #8b5fbf;   /* lyseste lilla */
+
+    /* Guld-palette — ornamentik */
+    --gold-deep:      #8b6914;
+    --gold:           #c9a04e;
+    --gold-bright:    #f0c674;
+    --gold-shimmer:   #ffe9b5;
+
+    /* Rarity-farver (samlerkort-konvention) */
+    --rarity-common:    #b8b8c8;
+    --rarity-uncommon:  #4ade80;
+    --rarity-rare:      #60a5fa;
+    --rarity-mythic:    #f97316;
+    --rarity-legendary: #f0c674;
+
+    /* Tekst */
+    --ink:            #ede4ff;   /* primær tekst */
+    --ink-muted:      #a89cc4;   /* sekundær tekst */
+    --ink-faint:      #6b5d8e;   /* svag tekst */
+
+    /* Effekter */
+    --glow-gold:      0 0 24px rgba(240, 198, 116, 0.4);
+    --glow-amethyst:  0 0 32px rgba(139, 95, 191, 0.5);
+    --shadow-deep:    0 20px 60px -10px rgba(0, 0, 0, 0.7);
+    --shadow-card:    0 10px 30px -5px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(240, 198, 116, 0.15);
+
+    /* Typografi */
+    --font-display:   'Cinzel Decorative', 'Times New Roman', serif;
+    --font-body:      'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+    --font-mono:      'JetBrains Mono', 'Courier New', monospace;
+
+    /* Spacing — 4px base */
+    --space-1:  0.25rem;
+    --space-2:  0.5rem;
+    --space-3:  0.75rem;
+    --space-4:  1rem;
+    --space-6:  1.5rem;
+    --space-8:  2rem;
+    --space-12: 3rem;
+    --space-16: 4rem;
+    --space-24: 6rem;
+
+    /* Radius */
+    --radius-sm: 4px;
+    --radius:    8px;
+    --radius-lg: 16px;
+    --radius-card: 12px;
+
+    /* Transitions */
+    --ease-out:   cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-magic: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --t-fast:     200ms;
+    --t-base:     400ms;
+    --t-slow:     800ms;
+
+    /* Mouse-position til kort-glød (kan opdateres via JS) */
+    --mx: 50%;
+    --my: 50%;
+}
+
+/* -------------------------------------------------------------
+   3. RESET & BASE
+   ------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    font-family: var(--font-body);
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--ink);
+    background: var(--midnight);
+
+    /* Lag-på-lag atmosfære: stjerner + gradient mesh + støj */
+    background-image:
+            radial-gradient(ellipse at 20% 10%, rgba(139, 95, 191, 0.25) 0%, transparent 50%),
+            radial-gradient(ellipse at 80% 90%, rgba(91, 58, 158, 0.3) 0%, transparent 55%),
+            radial-gradient(ellipse at 50% 50%, rgba(20, 9, 42, 0.5) 0%, var(--void) 100%);
+    background-attachment: fixed;
+    overflow-x: hidden;
+}
+
+/* Subtilt støj-overlay på hele siden — giver "papir/pergament"-følelse */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.04;
+    z-index: 1;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Stjerne-felt — diskrete prikker i baggrunden */
+body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+            radial-gradient(1px 1px at 20% 30%, var(--gold-shimmer), transparent),
+            radial-gradient(1px 1px at 60% 70%, var(--gold-bright), transparent),
+            radial-gradient(1px 1px at 80% 20%, var(--mystic), transparent),
+            radial-gradient(1px 1px at 35% 85%, var(--gold-shimmer), transparent),
+            radial-gradient(1px 1px at 90% 50%, var(--gold-bright), transparent),
+            radial-gradient(1px 1px at 10% 60%, var(--mystic), transparent);
+    background-size: 400px 400px;
+    opacity: 0.5;
+    animation: twinkle 8s ease-in-out infinite alternate;
+}
+
+@keyframes twinkle {
+    from { opacity: 0.3; }
+    to   { opacity: 0.6; }
+}
+
+/* -------------------------------------------------------------
+   4. TYPOGRAFI
+   ------------------------------------------------------------- */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--gold-bright);
+    margin: 0 0 var(--space-4);
+    text-shadow: 0 2px 16px rgba(240, 198, 116, 0.3);
+}
+
+h1 {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: 0.04em;
+}
+
+h2 {
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    line-height: 1.2;
+}
+
+h3 { font-size: 1.5rem; }
+h4 { font-size: 1.25rem; }
+
+p {
+    margin: 0 0 var(--space-4);
+    color: var(--ink);
+}
+
+a {
+    color: var(--gold-bright);
+    text-decoration: none;
+    position: relative;
+    transition: color var(--t-fast) var(--ease-out);
+}
+
+a:hover { color: var(--gold-shimmer); }
+
+a:not(.btn):not(.nav-link)::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform var(--t-base) var(--ease-out);
+}
+
+a:not(.btn):not(.nav-link):hover::after { transform: scaleX(1); }
+
+/* Tal og koder — monospace */
+code, .price, .card-number {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+}
+
+/* -------------------------------------------------------------
+   5. LAYOUT — Container & Grid
+   ------------------------------------------------------------- */
+.container {
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 var(--space-6);
+    position: relative;
+    z-index: 2;
+}
+
+section {
+    padding: var(--space-24) 0;
+    position: relative;
+    z-index: 2;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: var(--space-16);
+}
+
+.section-header h2 {
+    position: relative;
+    display: inline-block;
+    padding: 0 var(--space-8);
+}
+
+/* Ornamentale linjer på siderne af overskrifter */
+.section-header h2::before,
+.section-header h2::after {
+    content: '✦';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--gold);
+    font-size: 1rem;
+    opacity: 0.7;
+}
+.section-header h2::before { left: 0; }
+.section-header h2::after  { right: 0; }
+
+.section-subtitle {
+    font-style: italic;
+    color: var(--ink-muted);
+    font-size: 1.1rem;
+    max-width: 540px;
+    margin: 0 auto;
+}
+
+/* -------------------------------------------------------------
+   6. NAVIGATION
+   ------------------------------------------------------------- */
+.nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(12px);
+    background: rgba(10, 6, 18, 0.7);
+    border-bottom: 1px solid rgba(240, 198, 116, 0.15);
+    padding: var(--space-4) 0;
+}
+
+.nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-8);
+}
+
+.nav-logo {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    color: var(--gold-bright);
+    text-transform: uppercase;
+}
+
+.nav-logo::before {
+    content: '◈ ';
+    color: var(--amethyst);
+}
+
+.nav-links {
+    display: flex;
+    gap: var(--space-8);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-link {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    padding: var(--space-2) 0;
+    position: relative;
+}
+
+.nav-link:hover { color: var(--gold-bright); }
+
+.nav-link.active {
+    color: var(--gold-bright);
+}
+
+.nav-link.active::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -8px;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    background: var(--gold);
+    border-radius: 50%;
+    box-shadow: var(--glow-gold);
+}
+
+/* -------------------------------------------------------------
+   7. HERO
+   ------------------------------------------------------------- */
+.hero {
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Ornamental ring bag hero-titlen */
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 600px;
+    height: 600px;
+    transform: translate(-50%, -50%);
+    border: 1px solid rgba(240, 198, 116, 0.15);
+    border-radius: 50%;
+    animation: rotate 60s linear infinite;
+    pointer-events: none;
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 800px;
+    height: 800px;
+    transform: translate(-50%, -50%);
+    border: 1px dashed rgba(139, 95, 191, 0.2);
+    border-radius: 50%;
+    animation: rotate 90s linear infinite reverse;
+    pointer-events: none;
+}
+
+@keyframes rotate {
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 720px;
+    padding: var(--space-8);
+    animation: fadeUp 1.2s var(--ease-out) both;
+}
+
+.hero-eyebrow {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: var(--space-6);
+    display: block;
+    animation: fadeUp 1s var(--ease-out) both;
+    animation-delay: 0.1s;
+}
+
+.hero h1 {
+    background: linear-gradient(180deg, var(--gold-shimmer) 0%, var(--gold) 50%, var(--gold-deep) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: fadeUp 1s var(--ease-out) both;
+    animation-delay: 0.2s;
+}
+
+.hero-tagline {
+    font-size: 1.3rem;
+    font-style: italic;
+    color: var(--ink-muted);
+    margin: var(--space-6) 0 var(--space-8);
+    animation: fadeUp 1s var(--ease-out) both;
+    animation-delay: 0.4s;
+}
+
+.hero-actions {
+    display: flex;
+    gap: var(--space-4);
+    justify-content: center;
+    flex-wrap: wrap;
+    animation: fadeUp 1s var(--ease-out) both;
+    animation-delay: 0.6s;
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* -------------------------------------------------------------
+   8. BUTTONS
+   ------------------------------------------------------------- */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: var(--space-4) var(--space-8);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all var(--t-base) var(--ease-out);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid transparent;
+    text-decoration: none;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--gold-deep) 0%, var(--gold) 50%, var(--gold-bright) 100%);
+    color: var(--void);
+    border-color: var(--gold-shimmer);
+    box-shadow: var(--glow-gold), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 36px rgba(240, 198, 116, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    color: var(--void);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--gold-bright);
+    border-color: var(--amethyst);
+}
+
+.btn-secondary:hover {
+    background: rgba(139, 95, 191, 0.15);
+    border-color: var(--gold);
+    transform: translateY(-2px);
+}
+
+/* Shimmer-effekt der fejer hen over knappen ved hover */
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left var(--t-slow) var(--ease-out);
+}
+
+.btn:hover::before { left: 100%; }
+
+/* -------------------------------------------------------------
+   9. CARDS — Samlerkort-komponenten (hovedattraktionen)
+   ------------------------------------------------------------- */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: var(--space-8);
+    perspective: 1500px;
+}
+
+.card {
+    position: relative;
+    aspect-ratio: 5 / 7;
+    border-radius: var(--radius-card);
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transition: transform var(--t-slow) var(--ease-out),
+    box-shadow var(--t-base) var(--ease-out);
+    background: linear-gradient(145deg, var(--abyss) 0%, var(--violet) 100%);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+}
+
+/* Ornamental kant som "indlæg" inde i kortet */
+.card::before {
+    content: '';
+    position: absolute;
+    inset: 8px;
+    border: 1px solid rgba(240, 198, 116, 0.3);
+    border-radius: calc(var(--radius-card) - 4px);
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* Glød der følger musen — sættes via JS hvis ønsket, men virker også uden */
+.card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%),
+    rgba(240, 198, 116, 0.2) 0%,
+    transparent 50%);
+    opacity: 0;
+    transition: opacity var(--t-base) var(--ease-out);
+    pointer-events: none;
+    z-index: 3;
+}
+
+.card:hover {
+    transform: translateY(-8px) rotateX(4deg) rotateY(-4deg);
+    box-shadow:
+            0 30px 60px -10px rgba(0, 0, 0, 0.8),
+            0 0 0 1px rgba(240, 198, 116, 0.4),
+            var(--glow-amethyst);
+}
+
+.card:hover::after { opacity: 1; }
+
+.card-image {
+    position: relative;
+    width: 100%;
+    height: 60%;
+    overflow: hidden;
+    background: linear-gradient(180deg, var(--abyss), var(--midnight));
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--t-slow) var(--ease-out);
+}
+
+.card:hover .card-image img {
+    transform: scale(1.08);
+}
+
+.card-body {
+    padding: var(--space-4);
+    height: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    background: linear-gradient(180deg,
+    transparent 0%,
+    rgba(10, 6, 18, 0.6) 30%,
+    var(--midnight) 100%);
+}
+
+.card-title {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--gold-bright);
+    margin: 0 0 var(--space-1);
+    letter-spacing: 0.03em;
+}
+
+.card-set {
+    font-size: 0.85rem;
+    color: var(--ink-muted);
+    font-style: italic;
+    margin: 0 0 var(--space-2);
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+}
+
+.card-price {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--gold-shimmer);
+}
+
+/* Rarity-mærke (lille gem i øverste hjørne) */
+.card-rarity {
+    position: absolute;
+    top: var(--space-3);
+    right: var(--space-3);
+    z-index: 4;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--void);
+    border: 1px solid currentColor;
+    font-size: 0.7rem;
+    font-family: var(--font-display);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0;
+}
+
+.card-rarity.common    { color: var(--rarity-common); }
+.card-rarity.uncommon  { color: var(--rarity-uncommon); }
+.card-rarity.rare      { color: var(--rarity-rare); }
+.card-rarity.mythic    { color: var(--rarity-mythic); box-shadow: 0 0 16px currentColor; }
+.card-rarity.legendary {
+    color: var(--rarity-legendary);
+    box-shadow: 0 0 20px currentColor;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { box-shadow: 0 0 16px currentColor; }
+    50%      { box-shadow: 0 0 28px currentColor; }
+}
+
+/* -------------------------------------------------------------
+   10. FILTER BAR
+   ------------------------------------------------------------- */
+.filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    align-items: center;
+    padding: var(--space-4);
+    margin-bottom: var(--space-8);
+    background: rgba(20, 9, 42, 0.5);
+    border: 1px solid rgba(240, 198, 116, 0.15);
+    border-radius: var(--radius);
+    backdrop-filter: blur(8px);
+}
+
+.filter-input,
+.filter-select {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    padding: var(--space-3) var(--space-4);
+    background: var(--void);
+    color: var(--ink);
+    border: 1px solid var(--amethyst);
+    border-radius: var(--radius-sm);
+    transition: all var(--t-fast) var(--ease-out);
+}
+
+.filter-input:focus,
+.filter-select:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 2px rgba(240, 198, 116, 0.2);
+}
+
+.filter-input { flex: 1; min-width: 200px; }
+
+.filter-chip {
+    padding: var(--space-2) var(--space-4);
+    background: transparent;
+    color: var(--ink-muted);
+    border: 1px solid var(--ink-faint);
+    border-radius: 999px;
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all var(--t-fast) var(--ease-out);
+}
+
+.filter-chip:hover,
+.filter-chip.active {
+    background: var(--amethyst);
+    color: var(--ink);
+    border-color: var(--gold);
+}
+
+/* -------------------------------------------------------------
+   11. KORT-DETALJE / MODAL
+   ------------------------------------------------------------- */
+.card-detail {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: var(--space-12);
+    align-items: start;
+    padding: var(--space-12);
+    background: linear-gradient(145deg, var(--abyss) 0%, var(--midnight) 100%);
+    border: 1px solid rgba(240, 198, 116, 0.2);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-deep);
+}
+
+.card-detail-image {
+    aspect-ratio: 5 / 7;
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    border: 2px solid var(--gold);
+    box-shadow: var(--glow-gold);
+}
+
+.card-detail-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-detail-meta {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-3) var(--space-6);
+    padding: var(--space-6) 0;
+    border-top: 1px solid rgba(240, 198, 116, 0.15);
+    border-bottom: 1px solid rgba(240, 198, 116, 0.15);
+    margin: var(--space-6) 0;
+}
+
+.meta-label {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+}
+
+.meta-value {
+    font-family: var(--font-mono);
+    color: var(--gold-bright);
+}
+
+/* -------------------------------------------------------------
+   12. STATS / PRICE HISTORY
+   ------------------------------------------------------------- */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: var(--space-6);
+}
+
+.stat {
+    padding: var(--space-6);
+    background: rgba(20, 9, 42, 0.6);
+    border: 1px solid rgba(240, 198, 116, 0.15);
+    border-radius: var(--radius);
+    text-align: center;
+    transition: all var(--t-base) var(--ease-out);
+}
+
+.stat:hover {
+    border-color: var(--gold);
+    transform: translateY(-4px);
+    box-shadow: var(--glow-amethyst);
+}
+
+.stat-value {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--gold-bright);
+    display: block;
+    margin-bottom: var(--space-2);
+}
+
+.stat-label {
+    font-size: 0.85rem;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+}
+
+.stat-trend {
+    display: inline-block;
+    margin-left: var(--space-2);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+}
+
+.stat-trend.up   { color: var(--rarity-uncommon); }
+.stat-trend.down { color: #ef4444; }
+
+/* -------------------------------------------------------------
+   13. FOOTER
+   ------------------------------------------------------------- */
+.footer {
+    margin-top: var(--space-24);
+    padding: var(--space-16) 0 var(--space-8);
+    border-top: 1px solid rgba(240, 198, 116, 0.2);
+    background: rgba(10, 6, 18, 0.6);
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
+
+.footer-ornament {
+    font-family: var(--font-display);
+    color: var(--gold);
+    letter-spacing: 0.5em;
+    margin-bottom: var(--space-6);
+    opacity: 0.6;
+}
+
+.footer-text {
+    color: var(--ink-muted);
+    font-style: italic;
+    font-size: 0.95rem;
+}
+
+/* -------------------------------------------------------------
+   14. UTILITIES
+   ------------------------------------------------------------- */
+.text-center  { text-align: center; }
+.text-gold    { color: var(--gold-bright); }
+.text-muted   { color: var(--ink-muted); }
+.italic       { font-style: italic; }
+
+.divider-ornament {
+    text-align: center;
+    margin: var(--space-12) 0;
+    color: var(--gold);
+    letter-spacing: 1em;
+    opacity: 0.4;
+    font-size: 1.2rem;
+}
+
+/* -------------------------------------------------------------
+   15. RESPONSIVE
+   ------------------------------------------------------------- */
+@media (max-width: 900px) {
+    .card-detail {
+        grid-template-columns: 1fr;
+        padding: var(--space-6);
+    }
+    .nav-links { display: none; } /* Erstat med hamburger-menu i HTML */
+    section { padding: var(--space-16) 0; }
+}
+
+@media (max-width: 600px) {
+    body { font-size: 16px; }
+    .container { padding: 0 var(--space-4); }
+    .card-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: var(--space-4); }
+    .hero::before, .hero::after { display: none; }
+}
+
+/* -------------------------------------------------------------
+   16. MOTION ACCESSIBILITY
+   ------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* -------------------------------------------------------------
+   17. SCROLLBAR (Webkit)
+   ------------------------------------------------------------- */
+::-webkit-scrollbar       { width: 10px; }
+::-webkit-scrollbar-track { background: var(--void); }
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--amethyst), var(--violet));
+    border-radius: 5px;
+    border: 2px solid var(--void);
+}
+::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+
+/* -------------------------------------------------------------
+   18. SELECTION
+   ------------------------------------------------------------- */
+::selection {
+    background: var(--amethyst);
+    color: var(--gold-shimmer);
+}

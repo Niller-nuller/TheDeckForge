@@ -48,7 +48,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         // Offentligt
-                        .requestMatchers("/", "/login", "/register", "/css/**", "/js/**", "/img/**","/cards", "/cards/**").permitAll()
+                        .requestMatchers("/", "/login", "/register", "/css/**", "/js/**", "/img/**", "/cards/**").permitAll()
 
                         // Kun ADMIN
                         .requestMatchers("/admin/**", "/cards/new", "/cards/*/edit").hasRole("ADMIN")
@@ -63,7 +63,11 @@ public class SecurityConfig {
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
+                        .loginProcessingUrl("/login")
+                        .usernameParameter("email")
+                        .passwordParameter("password")
                         .defaultSuccessUrl("/", true)
+                        .failureUrl("/login?error")
                         .permitAll()
                 )
                 .logout(logout -> logout.permitAll());

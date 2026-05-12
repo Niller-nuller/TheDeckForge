@@ -6,14 +6,11 @@
 </head>
 <body>
 <nav th:fragment="navbar" class="navbar">
-    <a th:href="@{/}" class="navbar-brand">
-        <span>Card</span> DeckForge
-    </a>
     <div class="navbar-links">
         <a th:href="@{/}" class="navbar-link">Hjem</a>
         <a th:href="@{/cards/card-search}" class="navbar-link">Se kort</a>
         <a th:href="@{/decks/user-list}" class="navbar-link">Se Decks</a>
-        <a th:href="@{/}" class="navbar-link">Turneringer</a>
+        <a th:href="@{/collection}" class="navbar-link">Turneringer</a>
 
         <th:block th:if="${session.currentUser != null}">
             <a th:href="@{/myprofile}" class="navbar-link">Min side</a>

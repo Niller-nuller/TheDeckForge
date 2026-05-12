@@ -23,12 +23,4 @@ public class LoginController {
         model.addAttribute("Authority", new Authority());
         return "login";
     }
-
-    @PostMapping("/login")
-    public String login(@ModelAttribute("Authority") Authority authority, HttpSession session) {
-
-        session.setAttribute("currentUser", logInService.login(authority));
-
-        return "redirect:/index";
-    }
 }

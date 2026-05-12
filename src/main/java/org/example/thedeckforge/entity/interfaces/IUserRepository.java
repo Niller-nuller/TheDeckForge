@@ -2,10 +2,9 @@ package org.example.thedeckforge.entity.interfaces;
 
 import org.example.thedeckforge.entity.Authority;
 import org.example.thedeckforge.entity.User;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Repository
 public interface IUserRepository {
@@ -14,5 +13,5 @@ public interface IUserRepository {
     void createUser(User user);
     User getUserFromAuth(Authority userAuth);
     Long getUserLoginId(Authority userAuth);
-    Long getUserId(User user);
+    User findByEmail(String email);
 }

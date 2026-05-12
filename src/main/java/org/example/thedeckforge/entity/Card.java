@@ -67,48 +67,72 @@ public class Card {
         return cardName;
     }
     public void setCardName(String cardName) {
+        if(cardName == null || cardName.isEmpty()){
+            throw new CardValidationException("Card name cannot be empty");
+        }
         this.cardName = cardName;
     }
     public CardType getCardTypes() {
         return cardTypes;
     }
     public void setCardType(CardType cardTypes) {
+        if(cardTypes == null){
+            throw new CardValidationException("Card types cannot be empty");
+        }
         this.cardTypes = cardTypes;
     }
     public String getColor() {
         return color;
     }
     public void setColor(String color) {
+        if(color == null || color.isEmpty()){
+            throw new CardValidationException("Card color cannot be empty");
+        }
         this.color = color;
     }
     public String getSet() {
         return set;
     }
     public void setSet(String set) {
+        if(set == null || set.isEmpty()){
+            throw new CardValidationException("Card set cannot be empty");
+        }
         this.set = set;
     }
     public String getRarity() {
         return rarity;
     }
     public void setRarity(String rarity) {
+        if(rarity == null || rarity.isEmpty()){
+            throw new CardValidationException("Card rarity cannot be empty");
+        }
         this.rarity = rarity;
     }
     public String getRuleText() {
         return ruleText;
     }
     public void setRuleText(String ruleText) {
+        if(ruleText == null || ruleText.isEmpty()){
+            throw new CardValidationException("Card rule text cannot be empty");
+        }
         this.ruleText = ruleText;
     }
     public String getPictureRef() {
         return pictureRef;
     }
     public void setPictureRef(String pictureRef) {
+        if(pictureRef == null || pictureRef.isEmpty()){
+            throw new CardValidationException("Card picture ref cannot be empty");
+        }
         this.pictureRef = pictureRef;
     }
     public String getManaCost() {
         return manaCost;
     }
     public void setManaCost(String manaCost) {
+        if(manaCost == null || manaCost.isEmpty()){
+            throw new CardValidationException("Card mana cost cannot be empty");
+        }
         this.manaCost = manaCost;
     }
     public int getAttack(){

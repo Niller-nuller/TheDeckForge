@@ -1,9 +1,8 @@
 package org.example.thedeckforge.service;
-
-
 import org.example.thedeckforge.entity.Card;
 import org.example.thedeckforge.entity.User;
 import org.example.thedeckforge.entity.interfaces.ICardRepository;
+import org.example.thedeckforge.validation.ValidationType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -34,6 +33,7 @@ public class CardService {
         return new Card();
     }
     public void saveCard(Card card, User adminUser){
-
+        validationService.validate(ValidationType.ADMIN, adminUser);
+        cardRepository.saveCard(card);
     }
 }

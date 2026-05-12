@@ -30,7 +30,7 @@ public class CardService {
     public Card getCardById(long id){
         return cardRepository.returnCardById(id).orElseThrow(() -> new RuntimeException("Card with id " + id + " does not exist"));
     }
-    public Card createCard(){
+    public Card createDefaultCard(){
         return new Card();
     }
     public void saveCard(Card card, User adminUser){

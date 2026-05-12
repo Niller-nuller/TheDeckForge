@@ -36,7 +36,7 @@ public class DeckRepository implements IDeckRepository {
             jdbcTemplate.queryForList(deckContentsSql,deckId,cards);
             deck.setCards(cards);
             decks.add(deck);
-        }
+        } //test
         return decks;
     }
 

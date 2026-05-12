@@ -1,9 +1,8 @@
 package org.example.thedeckforge.service;
-
-
 import org.example.thedeckforge.entity.Card;
 import org.example.thedeckforge.entity.User;
 import org.example.thedeckforge.entity.interfaces.ICardRepository;
+import org.example.thedeckforge.validation.ValidationType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -30,10 +29,11 @@ public class CardService {
     public Card getCardById(long id){
         return cardRepository.returnCardById(id).orElseThrow(() -> new RuntimeException("Card with id " + id + " does not exist"));
     }
-    public Card createCard(){
+    public Card createDefaultCard(){
         return new Card();
     }
     public void saveCard(Card card, User adminUser){
-
+        validationService.validate(ValidationType.ADMIN, adminUser);
+        cardRepository.saveCard(card);
     }
 }

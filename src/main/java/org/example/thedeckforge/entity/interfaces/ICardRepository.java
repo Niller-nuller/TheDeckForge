@@ -13,7 +13,7 @@ public interface ICardRepository {
     List<Card> returnCardListByName(String searchCriteria);
     Optional<Card> returnCardById(long id);
     Optional<Card> returnCardByName(String name);
-    Optional<Card> returnCardByType(String type);
-    Optional<Card> returnIllegalStateOfCard();
+    void saveCard(Card card);
+
 
 }

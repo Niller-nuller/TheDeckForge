@@ -61,17 +61,25 @@ public class CardRepository implements ICardRepository {
                 ), id
         ));
     }
-
     @Override
     public Optional<Card> returnCardByName(String name) {
         return Optional.empty();
     }
     @Override
-    public Optional<Card> returnCardByType(String type) {
-        return Optional.empty();
-    }
-    @Override
-    public Optional<Card> returnIllegalStateOfCard() {
-        return Optional.empty();
+    public void saveCard(Card card) {
+        String sqlQuery = "INSERT INTO Cards(CharacterName, CardType, Color, CardSet, Rarity, RuleText, PictureReference, ManaCost, ATK, DEF) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        jdbcTemplate.update(sqlQuery,
+                card.getCardName(),
+                card.getCardTypes(),
+                card.getColor(),
+                card.getSet(),
+                card.getRarity(),
+                card.getRuleText(),
+                card.getPictureRef(),
+                card.getManaCost(),
+                card.getAttack(),
+                card.getDefense()
+                );
     }
 }

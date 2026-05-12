@@ -16,9 +16,9 @@
         </div>
         <div class="field">
             <label for="cardType">Card Type</label>
-            <select id="cardType" name="cardType" th:field="*{cardTypes}">
+            <select id="cardType" name="cardType" th:field="*{cardType}">
                 <option value="">Select Type</option>
-                <option th:each="type : ${cardTypes}" th:value="${type}" th:text="${type}"></option>
+                <option th:each="type : ${cardType}" th:value="${type}" th:text="${type}"></option>
             </select>
         </div>
         <div class="field">
@@ -30,7 +30,7 @@
             <input type="text" id="set" name="cardSet" th:field="*{set}" required>
         </div>
         <div class="field">
-            <label for="rarity">Date</label>
+            <label for="rarity">rarity</label>
             <input type="text" id="rarity" name="cardRarity" th:field="*{rarity}" required>
         </div>
         <div class="field">
@@ -39,7 +39,7 @@
         </div>
         <div class="field">
             <label for="pictureRef">Card Image</label>
-            <input type="file" id="pictureRef" name="pictureRef" accept="image/*" required>
+            <input type="file" id="pictureRef" name="cardImage" accept="image/*" required>
         </div>
         <div class="field">
             <label for="manaCost">Card Mana Cost</label>
@@ -52,6 +52,9 @@
         <div class="field">
             <label for="defense">Card Defense Value</label>
             <input type="text" id="defense" name="cardDefense" th:field="*{defense}">
+        </div>
+        <div class="button">
+            <button type="submit">Save Card</button>
         </div>
     </form>
   </div>

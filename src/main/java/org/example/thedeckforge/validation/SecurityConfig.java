@@ -61,7 +61,7 @@ public class SecurityConfig {
 
                         .anyRequest().authenticated()
                 )
-                .formLogin(form -> form
+                .formLogin(form -> form // This is where we can config how spring security is suppose to handle it's form, when it comes to login.
                         .loginPage("/login")
                         .loginProcessingUrl("/login")
                         .usernameParameter("email")

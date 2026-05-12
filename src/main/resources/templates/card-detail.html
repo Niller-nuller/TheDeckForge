@@ -10,7 +10,7 @@
     <img th:src="${card.getPictureRef()}" alt="">
     <div class="card-body">
         <h5 class="card-title" th:text="${card.getCardName()}"></h5>
-        <p class="card-text" th:text="${card.getCardTypes()}"></p>
+        <p class="card-text" th:text="${card.getCardType()}"></p>
         <p class="card-text" th:text="${card.getColor()}"></p>
         <p class="card-text" th:text="${card.getSet()}"></p>
         <p class="card-text" th:text="${card.getRarity()}"></p>

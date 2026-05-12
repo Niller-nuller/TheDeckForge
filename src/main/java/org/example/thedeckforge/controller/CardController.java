@@ -28,7 +28,7 @@ public class CardController {
     }
     @GetMapping("/card-list")
     public String cardListController(@RequestParam String searchTerm, Model model){
-        List<Card> searchResults = cardService.getCardListBasedOnSearchCriteria(searchTerm);
+        List<Card> searchResults = cardService.getCardListBasedOnSearchTerm(searchTerm);
         model.addAttribute("searchResults", searchResults);
         model.addAttribute("searchTerm", searchTerm);
         return "card-list";

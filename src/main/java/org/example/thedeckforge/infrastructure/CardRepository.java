@@ -67,11 +67,10 @@ public class CardRepository implements ICardRepository {
     }
     @Override
     public void saveCard(Card card) {
-        String sqlQuery = "INSERT INTO Cards(CharacterName, CardType, Color, CardSet, Rarity, RuleText, PictureReference, ManaCost, ATK, DEF) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
+        String sqlQuery = "INSERT INTO Cards (CharacterName, CardType, Color, CardSet, Rarity, RuleText, PictureReference, ManaCost, ATK, DEF) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         jdbcTemplate.update(sqlQuery,
                 card.getCardName(),
-                card.getCardTypes(),
+                card.getCardType().toString(),
                 card.getColor(),
                 card.getSet(),
                 card.getRarity(),

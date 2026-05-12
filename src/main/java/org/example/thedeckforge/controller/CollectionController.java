@@ -1,9 +1,7 @@
 // controller/CollectionController.java
 package org.example.thedeckforge.controller;
 
-import jakarta.servlet.http.HttpSession;
 import org.example.thedeckforge.entity.Card;
-import org.example.thedeckforge.entity.Collection;
 import org.example.thedeckforge.entity.User;
 import org.example.thedeckforge.service.CollectionService;
 import org.example.thedeckforge.service.UserService;

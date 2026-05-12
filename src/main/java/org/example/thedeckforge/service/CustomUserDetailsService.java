@@ -1,6 +1,7 @@
 // service/CustomUserDetailsService.java
 package org.example.thedeckforge.service;
 
+import org.example.thedeckforge.entity.interfaces.IUserRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.core.userdetails.User;
@@ -12,23 +13,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final JdbcTemplate jdbc;
+    private final IUserRepository userRepository;
 
-    public CustomUserDetailsService(JdbcTemplate jdbc) {
-        this.jdbc = jdbc;
+    public CustomUserDetailsService(IUserRepository userRepository) {
+        this.userRepository = userRepository;
     }
-
     @Override
     public UserDetails loadUserByUsername(String email) {
-        String sql = "SELECT Email, PasswordHash, UserRole FROM Credentials WHERE Email = ?";
-        try {
-            return jdbc.queryForObject(sql, (rs, rowNum) -> User.builder()
-                    .username(rs.getString("Email"))
-                    .password(rs.getString("PasswordHash"))
-                    .roles(rs.getString("UserRole"))
-                    .build(), email);
-        } catch (EmptyResultDataAccessException e) {
-            throw new UsernameNotFoundException("Bruger ikke fundet: " + email);
-        }
+        return userRepository.findUserByEmail(email);
     }
 }

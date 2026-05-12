@@ -4,8 +4,11 @@ import org.example.thedeckforge.entity.Authority;
 import org.example.thedeckforge.entity.User;
 import org.example.thedeckforge.entity.enums.Roles;
 import org.example.thedeckforge.entity.interfaces.IUserRepository;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 
 
@@ -101,5 +104,19 @@ public class UserRepository implements IUserRepository {
     public Long getUserId(User user){
         String sql = "SELECT UsersId FROM Users LEFT JOIN Credentials ON Users.UserCrednetialsId = Credentials.CredentialsId WHERE Email = ?";
         return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> rs.getLong("UserId"), user.getAuthority().getEmail());
+    }
+
+    @Override
+    public UserDetails findUserByEmail(String email){
+        String sql = "SELECT Email, PasswordHash, UserRole FROM Credentials WHERE Email = ?";
+        try {
+            return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> org.springframework.security.core.userdetails.User.builder()
+                    .username(rs.getString("Email"))
+                    .password(rs.getString("PasswordHash"))
+                    .roles(rs.getString("UserRole"))
+                    .build(), email);
+        } catch (EmptyResultDataAccessException e) {
+            throw new UsernameNotFoundException("Bruger ikke fundet: " + email);
+        }
     }
 }

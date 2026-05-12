@@ -3,31 +3,29 @@ package org.example.thedeckforge.entity;
 import org.example.thedeckforge.entity.enums.CardType;
 import org.example.thedeckforge.validation.exceptions.CardValidationException;
 
-import java.util.List;
-
 public class Card {
     private long id;
     private String cardName;
-    private CardType cardTypes;
+    private CardType cardType;
     private String color;
     private String set;
     private String rarity;
     private String ruleText;
     private String pictureRef;
     private String manaCost;
-    private int attack;
-    private int defense;
+    private Integer attack;
+    private Integer defense;
 
     public Card(){}
 
-    public Card(long id, String cardName,CardType cardTypes, String color, String set, String rarity, String ruleText, String pictureRef, String manaCost, int attack, int defense) {
+    public Card(long id, String cardName, CardType cardType, String color, String set, String rarity, String ruleText, String pictureRef, String manaCost, int attack, int defense) {
         if(id <= 0){
             throw new CardValidationException("Card id must be greater than 0");
         }
         if(cardName == null || cardName.isEmpty()){
             throw new CardValidationException("Card name cannot be empty");
         }
-        if(cardTypes == null){
+        if(cardType == null){
             throw new CardValidationException("Card types cannot be empty");
         }
         if(color == null || color.isEmpty()){
@@ -47,7 +45,7 @@ public class Card {
         }
         this.id = id;
         this.cardName = cardName;
-        this.cardTypes = cardTypes;
+        this.cardType = cardType;
         this.color = color;
         this.set = set;
         this.rarity = rarity;
@@ -72,14 +70,14 @@ public class Card {
         }
         this.cardName = cardName;
     }
-    public CardType getCardTypes() {
-        return cardTypes;
+    public CardType getCardType() {
+        return cardType;
     }
     public void setCardType(CardType cardTypes) {
         if(cardTypes == null){
             throw new CardValidationException("Card types cannot be empty");
         }
-        this.cardTypes = cardTypes;
+        this.cardType = cardTypes;
     }
     public String getColor() {
         return color;
@@ -135,13 +133,13 @@ public class Card {
         }
         this.manaCost = manaCost;
     }
-    public int getAttack(){
+    public Integer getAttack(){
         return attack;
     }
     public void setAttack(int attack){
         this.attack = attack;
     }
-    public int getDefense(){
+    public Integer getDefense(){
         return defense;
     }
     public void setDefense(int defense){

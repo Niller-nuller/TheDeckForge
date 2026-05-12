@@ -35,7 +35,7 @@
                     <dt>Sjældenhed</dt>
                     <dd>
                         <span class="rarity-pill"
-                              th:classappend="'rarity-' + ${#strings.toLowerCase(card.rarity)}"
+                              th:classappend="|rarity-${#strings.toLowerCase(card.rarity)}|"
                               th:text="${card.rarity}">Rare</span>
                     </dd>
 

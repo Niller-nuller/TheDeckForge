@@ -9,7 +9,7 @@ import java.util.List;
 @Repository
 public interface IDeckRepository {
 
-    List<Deck> getUsersDecks(User user);
+    List<Deck> getUsersDecks(long userid);
     void createUserDeck(Deck deck, long Userid);
 
 

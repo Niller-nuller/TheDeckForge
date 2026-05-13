@@ -15,28 +15,30 @@ public class DeckRepository implements IDeckRepository {
 
     private JdbcTemplate jdbcTemplate;
 
+    public DeckRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
     @Override
     public void createUserDeck(Deck deck, long Userid){
-        String sql = "INSERT INTO Decks (UserId, DeckName, DeckFormat) VALUES (?, ?, ?) ";
-        jdbcTemplate.update(sql,Userid,deck.getName(),deck.getFormat());
+        String sql = "INSERT INTO Decks (UserId, DeckName, Format) VALUES (?, ?, ?) ";
+        jdbcTemplate.update(sql,Userid,deck.getName(),deck.getFormat().toString());
     }
 
 
     @Override
-    public List<Deck> getUsersDecks (User user){
-        String deckIdSql = "SELECT DeckID FROM Users RIGHT JOIN Decks ON Users.UserId = Decks.UserId where email = ?";
-        ArrayList<Integer> deckIds = new ArrayList<>();
-        jdbcTemplate.queryForList(deckIdSql,user.getAuthority().getEmail(),deckIds);
+    public List<Deck> getUsersDecks (long userid){
+        String deckIdSql = "SELECT DeckID FROM Decks LEFT JOIN Users ON Decks.UserId = Users.UserId where Decks.UserId = ?";
+        List<Integer> deckIds = jdbcTemplate.queryForList(deckIdSql, Integer.class, userid);
         String deckInfoSql = "SELECT * FROM Decks WHERE DeckID = ?";
-        String deckContentsSql = "SELECT * FROM Cards LEFT JOIN DeckkCards ON Cards.CardId = DeckkCards.CardId WHERE DeckId = ?";
+        String deckContentsSql = "SELECT * FROM Cards LEFT JOIN DeckCards ON Cards.CardId = DeckCards.CardId WHERE DeckId = ?";
         List<Deck> decks = new ArrayList<>();
         for (Integer deckId : deckIds) {
-            Deck deck = jdbcTemplate.queryForObject(deckInfoSql,(rs, rowNum) -> new Deck(rs.getString("DeckName"), FormatType.valueOf(rs.getString("DeckFormat"))), deckId);
-            ArrayList<Card> cards = new ArrayList<>();
-            jdbcTemplate.queryForList(deckContentsSql,deckId,cards);
+            Deck deck = jdbcTemplate.queryForObject(deckInfoSql,(rs, rowNum) -> new Deck(rs.getString("DeckName"), FormatType.valueOf(rs.getString("Format"))), deckId);
+            List<Card> cards = jdbcTemplate.queryForList(deckContentsSql,Card.class,deckId);
             deck.setCards(cards);
             decks.add(deck);
-        } //test
+        }
         return decks;
     }
 }

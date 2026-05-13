@@ -17,12 +17,11 @@ public class RegisterService {
     public RegisterService(IUserRepository userRepository) {
         this.userRepository = userRepository;
     }
-    public Authority register(User user) {
+    public void register(User user) {
         String hashed = BCrypt.hashpw(user.getAuthority().getPassword(), BCrypt.gensalt());
         user.getAuthority().setPassword(hashed);
         userRepository.createUserAuthority(user.getAuthority());
         userRepository.createUser(user);
-        return user.getAuthority();
     }
     public User getUserForm(){
         return new User();

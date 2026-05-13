@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
+import java.util.List;
 
 
 @Service
@@ -28,11 +29,15 @@ public DeckService(IDeckRepository deckRepository, IUserRepository userRepositor
 public void createDeck(Deck deck, Authentication auth){
     User user = userService.getCurrentUser(auth);
     deck.setCards(new ArrayList<>());
+    user.setDecks(new ArrayList<>());
     user.addDeck(deck);
     long Userid = userRepository.getUserId(user);
     deckRepository.createUserDeck(deck,Userid);
 }
-
+public List<Deck> getUserDecks(User user){
+    long userid = userRepository.getUserId(user);
+    return deckRepository.getUsersDecks(userid);
+}
     public Deck getDeckForm(){
         return new Deck();
     }

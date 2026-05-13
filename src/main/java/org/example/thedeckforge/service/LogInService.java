@@ -37,4 +37,8 @@ public class LogInService {
     private boolean isValidCredentials(Authority loginRequest, Authority authLogin) {
         return authLogin != null && BCrypt.checkpw(loginRequest.getPassword(), authLogin.getPassword());
     }
+
+    public Authority getLoginRequest() {
+        return new Authority();
+    }
 }

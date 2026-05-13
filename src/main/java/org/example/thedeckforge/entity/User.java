@@ -52,6 +52,9 @@ public class User {
     public void setCollection(Collection collection) {
         this.collection = collection;
     }
+    public void addDeck(Deck deck){
+        decks.add(deck);
+    }
     public void setDecks(List<Deck> decks) {
         this.decks = decks;
     }
@@ -61,5 +64,7 @@ public class User {
     public void setName(String name) {
         this.name = name;
     }
-    public Collection getCollection() {return collection;}
+    public Collection getCollection() {
+        return collection;
+    }
 }

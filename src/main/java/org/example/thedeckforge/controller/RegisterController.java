@@ -28,9 +28,8 @@ public class RegisterController {
     }
 
     @PostMapping("/register")
-    public String register(@ModelAttribute("registerWrapper") User user, HttpSession session) {
-        session.setAttribute("currentUser",registerService.register(user));
-        return "redirect:/";
+    public String register(@ModelAttribute("user") User user) {
+        return "register-successful";
     }
 
 

@@ -1,21 +1,76 @@
-<h1 th:text="|${user.name}'s samling|">Jonas's samling</h1>
-<p class="meta">
-    <span th:text="${user.collection.cardCount}">0</span> kort i alt
-</p>
+<!DOCTYPE html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security6">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="|${user.name} - Samling|">Samling</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
 
-<div th:if="${user.collection.cards.isEmpty()}" class="empty">
-    Denne bruger ejer ingen kort endnu.
-</div>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
 
-<div th:unless="${user.collection.cards.isEmpty()}" class="grid">
-    <div th:each="card : ${user.collection.cards}" class="card">
-        <img th:src="${card.pictureRef}" th:alt="${card.cardName}">
-        <div class="card-body">
-            <div class="card-name" th:text="${card.cardName}">Name</div>
-            <div class="card-meta">
-                <span th:text="${card.rarity}">Rare</span> ·
-                <span th:text="${card.color}">Blue</span>
-            </div>
+<section class="collection-page">
+    <div class="container">
+
+        <header class="collection-header">
+            <span class="hero-eyebrow">✦ Personal Codex ✦</span>
+            <h1 th:text="|${user.name}'s samling|">Jonas's samling</h1>
+            <p class="section-subtitle" th:if="${totalCards > 0}">
+                Viser <strong th:text="${firstShown}">1</strong>–<strong th:text="${lastShown}">30</strong>
+                af <strong th:text="${totalCards}">100</strong> kort
+            </p>
+        </header>
+
+        <div th:if="${user.collection.cards.isEmpty()}" class="collection-empty">
+            <div class="empty-ornament">✦</div>
+            <p>Ingen kort i samlingen endnu.</p>
+            <a th:href="@{/cards/card-search}" class="btn btn-secondary">Find kort at tilføje</a>
         </div>
+
+        <div th:unless="${user.collection.cards.isEmpty()}" class="collection-grid">
+            <a th:each="card : ${user.collection.cards}"
+               th:href="@{/cards/{id}(id=${card.id})}"
+               class="collection-card">
+                <div class="collection-card-image">
+                    <img th:src="${card.pictureRef}" th:alt="${card.cardName}">
+                </div>
+                <div class="collection-card-name" th:text="${card.cardName}">Card Name</div>
+            </a>
+        </div>
+
+        <nav th:if="${totalPages > 1}" class="pagination">
+            <a th:href="@{/collection(page=${currentPage - 1})}"
+               class="page-btn page-prev"
+               th:classappend="${currentPage == 0} ? 'disabled' : ''">
+                ‹ Forrige
+            </a>
+
+            <div class="page-numbers">
+                <a th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                   th:href="@{/collection(page=${i})}"
+                   th:text="${i + 1}"
+                   class="page-num"
+                   th:classappend="${i == currentPage} ? 'active' : ''">1</a>
+            </div>
+
+            <a th:href="@{/collection(page=${currentPage + 1})}"
+               class="page-btn page-next"
+               th:classappend="${currentPage == totalPages - 1} ? 'disabled' : ''">
+                Næste ›
+            </a>
+        </nav>
+
     </div>
-</div>
+</section>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-ornament">⚜ ✦ ⚜</div>
+        <p class="footer-text">Deckforge · Anno MMXXVI</p>
+    </div>
+</footer>
+
+</body>
+</html>

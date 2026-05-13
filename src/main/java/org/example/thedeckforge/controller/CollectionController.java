@@ -6,6 +6,7 @@ import org.example.thedeckforge.service.CollectionService;
 import org.example.thedeckforge.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,9 +31,9 @@ public class CollectionController {
     }
 
     @GetMapping
-    public String viewCollection(Authentication auth, @RequestParam(defaultValue = "0") int page, Model model) {
+    public String viewCollection(@AuthenticationPrincipal User user, @RequestParam(defaultValue = "0") int page, Model model) {
 
-        User user = userService.getCurrentUser(auth);
+        System.out.println(user.getId());
         if (user == null) {
             return "redirect:/login";
         }

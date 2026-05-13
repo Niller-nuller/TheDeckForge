@@ -39,10 +39,8 @@ public class CardService {
     }
 
     public void saveCard(Card card, MultipartFile picture) throws IOException {
-        String cardPictureRef = saveImage( picture);
-
-        card.setPictureRef(cardPictureRef);
-
+        String cardPictureRef = saveImage(picture);
+        addPictureReferenceToCard(card,cardPictureRef);
         cardRepository.saveCard(card);
     }
 
@@ -57,5 +55,8 @@ public class CardService {
             return ("/img/cards/" + fileName);
         }
         return null;
+    }
+    private void addPictureReferenceToCard(Card card, String cardPictureRef) throws IOException {
+        card.setPictureRef(cardPictureRef);
     }
 }

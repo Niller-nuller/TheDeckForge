@@ -76,7 +76,18 @@ public class UserRepository implements IUserRepository {
                 (rs, rowNum) -> rs.getLong("CredentialsId"), userAuth.getUsername()
         );
     }
+    @Override
+    public Authority getAuthorityByEmail(String email){
+        String sqlQuery = "SELECT * FROM Credentials WHERE Email = ?";
 
+        return jdbcTemplate.queryForObject(sqlQuery, (rs, rowNum) ->
+                new Authority(
+                        rs.getString("Email"),
+                        rs.getString("PasswordHash"),
+                        Roles.valueOf((rs.getString("UserRole").toUpperCase()))
+                ),email
+        );
+    }
     @Override
     public User findByEmail(String email) {
         String sql = """

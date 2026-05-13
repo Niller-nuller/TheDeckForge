@@ -18,9 +18,9 @@ public class UserService {
 
     public User getCurrentUser(Authentication authentication) {
         if (authentication == null || !authentication.isAuthenticated()) {
+            System.out.println("ups");
             return null;
         }
-        String email = authentication.getName();
-        return userRepository.findByEmail(email);
+        return (User) authentication.getPrincipal();
     }
 }

@@ -1,0 +1,31 @@
+package org.example.thedeckforge.controller;
+
+import org.example.thedeckforge.entity.User;
+import org.example.thedeckforge.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+@Controller
+public class TestController {
+
+    private final UserService userService;
+    @Autowired
+    public TestController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @GetMapping("/test-auth")
+    @ResponseBody  // returns plain text instead of looking for a template
+    public String testAuth(Authentication auth) {
+        User user = userService.getCurrentUser(auth);
+        if (user == null) {
+            return "No user found — not logged in";
+        }
+        System.out.println(user.getId());
+        System.out.println(user.getAuthority().getUsername());
+        return "Logged in as: " + user.getName() + " | Role: " + user.getAuthority().getAuthorities();
+    }
+}

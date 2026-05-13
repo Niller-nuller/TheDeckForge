@@ -1,5 +1,6 @@
 package org.example.thedeckforge.seclayer;   // <-- byt til "config" eller "security", "validation" giver ikke mening
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
@@ -17,6 +18,8 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity //Initializes Spring Security
 @EnableMethodSecurity //This should allow us to accept users based on they roles
 public class SecurityConfig {
+    @Autowired
+    private CustomAuthenticationProvider customAuthenticationProvider;
 
     // === Hierarki: ADMIN > ORGANIZER > MEMBER ===
     @Bean //This sets the role
@@ -36,16 +39,11 @@ public class SecurityConfig {
         return handler;
     }
 
-    // === Password-hashing (BCrypt) ===
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
     // === Sikkerhedsregler for HTTP requests ===
     @Bean // This build the security flow based on given rules (Which end-point are accessible by what role?, When to encode, and when to check role hierarchy)
     public SecurityFilterChain securityFilterChain(HttpSecurity http){
         http
+                .authenticationProvider(customAuthenticationProvider)
                 .authorizeHttpRequests(auth -> auth
                         // Offentligt
                         .requestMatchers("/", "/login", "/register", "/css/**", "/js/**", "/img/**", "/cards/**").permitAll()

@@ -78,7 +78,20 @@ public class UserRepository implements IUserRepository {
     }
 
     @Override
-    public User findByEmail(String email) {
+    public Authority findAuthiortyByEmail(String email) {
+        String sqlQuery = "SELECT * FROM Credentials WHERE Email = ?";
+
+        return jdbcTemplate.queryForObject(sqlQuery, (rs, rowNum) ->
+                new Authority(
+                        rs.getString("Email"),
+                        rs.getString("PasswordHash"),
+                        Roles.valueOf((rs.getString("UserRole").toUpperCase()))
+                ),email
+        );
+    }
+
+    @Override
+    public User findUserByEmail(String email) {
         String sql = """
         SELECT u.UserId, u.Name, u.Age, c.Email, c.UserRole
         FROM Users u
@@ -100,6 +113,7 @@ public class UserRepository implements IUserRepository {
             return user;
         }, email);
     }
+
     @Override
     public Long getUserId(User user){
         String sql = "SELECT UsersId FROM Users LEFT JOIN Credentials ON Users.UserCrednetialsId = Credentials.CredentialsId WHERE Email = ?";
@@ -107,7 +121,7 @@ public class UserRepository implements IUserRepository {
     }
 
     @Override
-    public UserDetails findUserByEmail(String email){
+    public UserDetails findUserDetailsByEmail(String email){
         String sql = "SELECT Email, PasswordHash, UserRole FROM Credentials WHERE Email = ?";
         try {
             return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> org.springframework.security.core.userdetails.User.builder()

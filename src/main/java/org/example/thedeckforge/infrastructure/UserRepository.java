@@ -1,6 +1,7 @@
 package org.example.thedeckforge.infrastructure;
 
 import org.example.thedeckforge.entity.Authority;
+import org.example.thedeckforge.entity.Card;
 import org.example.thedeckforge.entity.User;
 import org.example.thedeckforge.entity.enums.Roles;
 import org.example.thedeckforge.entity.interfaces.IUserRepository;
@@ -101,5 +102,11 @@ public class UserRepository implements IUserRepository {
     public Long getUserId(User user){
         String sql = "SELECT UsersId FROM Users LEFT JOIN Credentials ON Users.UserCrednetialsId = Credentials.CredentialsId WHERE Email = ?";
         return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> rs.getLong("UserId"), user.getAuthority().getEmail());
+    }
+
+    @Override
+    public void addCardToCollection(User user, Card card){
+        String sql = "INSERT INTO Collections (UserId,CardId) VALUES (?,?)";
+        jdbcTemplate.update(sql, user.getId(), card.getId());
     }
 }

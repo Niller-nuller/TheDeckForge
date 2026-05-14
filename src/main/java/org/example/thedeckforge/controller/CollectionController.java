@@ -2,15 +2,15 @@ package org.example.thedeckforge.controller;
 
 import org.example.thedeckforge.entity.Card;
 import org.example.thedeckforge.entity.User;
+import org.example.thedeckforge.service.CardService;
 import org.example.thedeckforge.service.CollectionService;
 import org.example.thedeckforge.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,15 +22,19 @@ public class CollectionController {
 
     private final UserService userService;
     private final CollectionService collectionService;
+    private final CardService cardService;
 
     @Autowired
-    public CollectionController(CollectionService collectionService, UserService userService) {
+    public CollectionController(CollectionService collectionService, UserService userService, CardService cardService) {
         this.collectionService = collectionService;
         this.userService = userService;
+        this.cardService = cardService;
     }
 
     @GetMapping
-    public String viewCollection(@AuthenticationPrincipal User user, @RequestParam(defaultValue = "0") int page, Model model) {
+    public String viewCollection(Authentication auth, @RequestParam(defaultValue = "0") int page, Model model) {
+
+        User user = userService.getCurrentUser(auth);
         if (user == null) {
             return "redirect:/login";
         }
@@ -56,4 +60,22 @@ public class CollectionController {
 
         return "collection/view";
     }
+
+    @PostMapping("/card-detail/{id}/remove")
+    @ResponseBody
+    public ResponseEntity<String> removeCard(@PathVariable long id, Authentication auth) {
+        Card card = cardService.getCardById(id);
+        collectionService.removeCardFromCollection(card,auth);
+        return ResponseEntity.ok("Kort fjernet");
+    }
+
+    @PostMapping("/card-detail/{id}/add")
+    @ResponseBody
+    public ResponseEntity<String> addCard(@PathVariable long id, Authentication auth) {
+        Card card = cardService.getCardById(id);
+        collectionService.addCardToCollection(card, auth);
+        return ResponseEntity.ok("Kort tilføjet");
+
+    }
+
 }

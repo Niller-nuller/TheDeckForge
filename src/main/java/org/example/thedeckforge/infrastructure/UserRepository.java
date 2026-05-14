@@ -1,6 +1,7 @@
 package org.example.thedeckforge.infrastructure;
 
 import org.example.thedeckforge.entity.Authority;
+import org.example.thedeckforge.entity.Card;
 import org.example.thedeckforge.entity.User;
 import org.example.thedeckforge.entity.enums.Roles;
 import org.example.thedeckforge.entity.interfaces.IUserRepository;
@@ -128,5 +129,11 @@ public class UserRepository implements IUserRepository {
         } catch (EmptyResultDataAccessException e) {
             throw new UsernameNotFoundException("Bruger ikke fundet: " + email);
         }
+    }
+
+    @Override
+    public void addCardToCollection(User user, Card card){
+        String sql = "INSERT INTO Collections (UserId,CardId) VALUES (?,?)";
+        jdbcTemplate.update(sql, user.getId(), card.getId());
     }
 }

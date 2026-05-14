@@ -1390,3 +1390,28 @@ section {
     background: var(--amethyst);
     color: var(--gold-shimmer);
 }
+
+/* -------------------------------------------------------------
+   19. TOAST NOTIFICATION
+   ------------------------------------------------------------- */
+.toast-notification {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: var(--amethyst);
+    color: var(--gold-shimmer);
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    border: 1px solid var(--gold-deep);
+    font-family: 'EB Garamond', serif;
+    font-size: 1.1rem;
+    z-index: 9999;
+    animation: toastFadeInOut 3s ease forwards;
+}
+
+@keyframes toastFadeInOut {
+    0%   { opacity: 0; transform: translateY(1rem); }
+    10%  { opacity: 1; transform: translateY(0); }
+    80%  { opacity: 1; }
+    100% { opacity: 0; }
+}

@@ -1,6 +1,7 @@
 package org.example.thedeckforge.entity.interfaces;
 
 import org.example.thedeckforge.entity.Authority;
+import org.example.thedeckforge.entity.Card;
 import org.example.thedeckforge.entity.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
@@ -16,4 +17,5 @@ public interface IUserRepository {
     Authority getAuthorityByEmail(String email);
     UserDetails findUserByEmail(String email);
     Long getUserId(User user);
+    void addCardToCollection(User user, Card card);
 }

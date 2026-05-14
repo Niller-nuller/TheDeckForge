@@ -1,10 +1,12 @@
 package org.example.thedeckforge.infrastructure;
 
 import org.example.thedeckforge.entity.Card;
+import org.example.thedeckforge.entity.User;
 import org.example.thedeckforge.entity.enums.CardType;
 import org.example.thedeckforge.entity.interfaces.ICollectionRepository;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -47,6 +49,12 @@ public class CollectionRepository implements ICollectionRepository {
         return jdbc.query(sql, cardRowMapper(), userId, pageSize, page * pageSize);
     }
 
+    public boolean userHasCard(long userId, long cardId) {
+        String sql = "SELECT COUNT(*) FROM Collections WHERE UserId = ? AND CardId = ?";
+        Integer count = jdbc.queryForObject(sql, Integer.class, userId, cardId);
+        return count != null && count > 0;
+    }
+
     public int countOwnedCardsByUserId(long userId) {
         String sql = "SELECT COUNT(*) FROM Collections WHERE UserId = ?";
         Integer count = jdbc.queryForObject(sql, Integer.class, userId);
@@ -67,5 +75,12 @@ public class CollectionRepository implements ICollectionRepository {
                 rs.getInt("ATK"),
                 rs.getInt("DEF")
         );
+    }
+
+    public void removeCardFromCollection(long cardId, long userId) {
+        String sql = """
+            DELETE FROM Collections WHERE UserId = ? AND CardId = ?
+        """;
+        jdbc.update(sql, userId, cardId);
     }
 }

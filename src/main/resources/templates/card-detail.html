@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="|${card.cardName} - Deckforge|">Kort</title>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
@@ -61,7 +63,12 @@
 
                 <div class="hero-actions" style="justify-content: flex-start; margin-top: var(--space-8);"
                      sec:authorize="isAuthenticated()">
-                    <button type="button" class="btn btn-primary">+ Tilføj til samling</button>
+                    <form id="add-to-collection" th:action="@{/collection/card-detail/{id}/add(id=${card.id})}" method="post">
+                        <button type="submit" class="btn btn-secondary">Tilføj til samling</button>
+                    </form>
+                    <form id="remove-from-collection" th:if="${hasCard}" th:action="@{/collection/card-detail/{id}/remove(id=${card.id})}" method="post">
+                        <button type="submit" class="btn btn-secondary">Fjern kort fra samling</button>
+                    </form>
                     <button type="button" class="btn btn-secondary">Tilføj til deck</button>
                 </div>
             </div>
@@ -78,5 +85,34 @@
     </div>
 </footer>
 
+<script>
+    function setupForm(id, successMessage) {
+        var form = document.getElementById(id);
+        if (!form) return;
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            var csrfToken = document.querySelector('meta[name="_csrf"]').content;
+            var csrfHeader = document.querySelector('meta[name="_csrf_header"]').content;
+            var headers = {};
+            headers[csrfHeader] = csrfToken;
+            fetch(this.action, { method: 'POST', headers: headers })
+                .then(function(response) {
+                    if (response.ok) showToast(successMessage);
+                    else showToast('Noget gik galt.');
+                });
+        });
+    }
+
+    setupForm('add-to-collection', 'Kort tilføjet til samling!');
+    setupForm('remove-from-collection', 'Kort fjernet fra samling!');
+
+    function showToast(message) {
+        var toast = document.createElement('div');
+        toast.className = 'toast-notification';
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        setTimeout(function() { toast.remove(); }, 3000);
+    }
+</script>
 </body>
 </html>

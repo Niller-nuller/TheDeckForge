@@ -2,7 +2,6 @@ package org.example.thedeckforge.service;
 
 import org.example.thedeckforge.entity.User;
 import org.example.thedeckforge.entity.interfaces.IUserRepository;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 

@@ -1,9 +1,7 @@
 package org.example.thedeckforge.service;
 
-import org.example.thedeckforge.entity.Authority;
 import org.example.thedeckforge.entity.User;
 import org.example.thedeckforge.entity.interfaces.IUserRepository;
-import org.example.thedeckforge.validation.ValidationType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;

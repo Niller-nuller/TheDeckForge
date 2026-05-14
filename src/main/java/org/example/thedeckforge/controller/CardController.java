@@ -1,9 +1,7 @@
 package org.example.thedeckforge.controller;
 
 import org.example.thedeckforge.entity.Card;
-import org.example.thedeckforge.entity.User;
 import org.example.thedeckforge.service.CardService;
-import org.example.thedeckforge.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

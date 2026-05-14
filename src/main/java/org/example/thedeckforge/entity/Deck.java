@@ -5,9 +5,17 @@ import org.example.thedeckforge.entity.enums.FormatType;
 import java.util.List;
 
 public class Deck {
+    private long deckId;
     private String name;
     private List<Card> cards;
     private FormatType format;
+
+    public Deck(long deckId, String name, FormatType format) {
+        this.deckId = deckId;
+        this.name = name;
+        this.format = format;
+    }
+
     public Deck(String name, List<Card> cards, FormatType format) {
         this.name = name;
         this.cards = cards;
@@ -18,7 +26,12 @@ public class Deck {
         this.format = format;
     }
     public Deck(){}
-
+    public long getDeckId() {
+        return deckId;
+    }
+    public void setDeckId(long deckId) {
+        this.deckId = deckId;
+    }
     public String getName() {
         return name;
     }

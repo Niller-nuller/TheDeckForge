@@ -3,11 +3,9 @@ package org.example.thedeckforge.controller;
 import org.example.thedeckforge.entity.Card;
 import org.example.thedeckforge.service.CardService;
 import org.example.thedeckforge.service.CollectionService;
-import org.example.thedeckforge.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,7 +30,7 @@ public class CardController {
     }
     @GetMapping("/card-list")
     public String cardListController(@RequestParam String searchTerm, Model model){
-        List<Card> searchResults = cardService.getCardListBasedOnSearchCriteria(searchTerm);
+        List<Card> searchResults = cardService.getCardListBasedOnSearchTerm(searchTerm);
         model.addAttribute("searchResults", searchResults);
         model.addAttribute("searchTerm", searchTerm);
         return "card-list";

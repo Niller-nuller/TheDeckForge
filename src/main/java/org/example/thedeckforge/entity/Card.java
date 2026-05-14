@@ -2,8 +2,6 @@ package org.example.thedeckforge.entity;
 
 import org.example.thedeckforge.entity.enums.CardType;
 import org.example.thedeckforge.validation.exceptions.CardValidationException;
-
-import java.util.List;
 import java.util.Objects;
 
 public class Card {
@@ -70,7 +68,7 @@ public class Card {
     public void setCardName(String cardName) {
         this.cardName = cardName;
     }
-    public CardType getCardTypes() {
+    public CardType getCardType() {
         return cardTypes;
     }
     public void setCardType(CardType cardTypes) {

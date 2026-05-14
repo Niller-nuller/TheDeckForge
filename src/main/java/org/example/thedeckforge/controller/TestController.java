@@ -1,8 +1,6 @@
 package org.example.thedeckforge.controller;
 
 import org.example.thedeckforge.entity.User;
-import org.example.thedeckforge.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,12 +8,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class TestController {
-
-    private final UserService userService;
-    @Autowired
-    public TestController(UserService userService) {
-        this.userService = userService;
-    }
 
     @GetMapping("/test-auth")
     @ResponseBody  // returns plain text instead of looking for a template

@@ -16,6 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity //Initializes Spring Security
 @EnableMethodSecurity //This should allow us to accept users based on they roles
 public class SecurityConfig {
+
     @Autowired
     private CustomAuthenticationProvider customAuthenticationProvider;
 

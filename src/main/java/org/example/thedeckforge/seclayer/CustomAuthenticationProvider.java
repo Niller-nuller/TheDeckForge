@@ -3,6 +3,7 @@ package org.example.thedeckforge.seclayer;
 import org.example.thedeckforge.entity.Authority;
 import org.example.thedeckforge.entity.User;
 import org.example.thedeckforge.service.LogInService;
+import org.jspecify.annotations.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -11,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import java.util.Objects;
 
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
@@ -28,7 +30,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String email = authentication.getName();
-        String password = authentication.getCredentials().toString();
+        String password = Objects.requireNonNull(authentication.getCredentials()).toString();
         System.out.println(">>> Email received: '" + email + "'");
         Authority userAuthority = logInService.getAuthorityFromEmail(email);
         if (!passwordEncoder.matches(password, userAuthority.getPassword())) {
@@ -40,7 +42,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     }
 
     @Override
-    public boolean supports(Class<?> authentication) {
+    public boolean supports(@NonNull Class<?> authentication) {
         return UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication);
     }
 }

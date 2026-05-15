@@ -12,11 +12,12 @@
         <ul class="nav-links">
             <li><a th:href="@{/}" class="nav-link">Hjem</a></li>
             <li><a th:href="@{/cards/card-search}" class="nav-link">Se kort</a></li>
-            <li><a th:href="@{/decks/user-list}" class="nav-link">Decks</a></li>
+            <li><a th:href="@{/decks/user-decks}" class="nav-link">Decks</a></li>
             <li><a th:href="@{/collection}" class="nav-link">Samling</a></li>
-
+            <li><a th:href="@{/test-auth}" class="nav=link"> test  </a>> </li>
             <li sec:authorize="isAuthenticated()">
                 <a th:href="@{/myprofile}" class="nav-link">Min side</a>
+
             </li>
 
             <li sec:authorize="hasRole('ADMIN')">

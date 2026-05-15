@@ -9,7 +9,54 @@
 
 <div class="container">
   <div class="row">
-    <form th:action="@{/admin/}"></form>
+    <form th:action="@{/admin/create-card}" th:object="${Card}" method="post" enctype="multipart/form-data">
+        <div class="field">
+            <label for="cardName">Card Name</label>
+                <input type="text" id="cardName" name="cardName" th:field="*{cardName}" required>
+        </div>
+        <div class="field">
+            <label for="cardType">Card Type</label>
+            <select id="cardType" name="cardType" th:field="*{cardType}">
+                <option value="">Select Type</option>
+                <option th:each="type : ${cardType}" th:value="${type}" th:text="${type}"></option>
+            </select>
+        </div>
+        <div class="field">
+            <label for="color">Card Color</label>
+            <input type="text" id="color" name="cardColor" th:field="*{color}" required>
+        </div>
+        <div class="field">
+            <label for="set">Card Set</label>
+            <input type="text" id="set" name="cardSet" th:field="*{set}" required>
+        </div>
+        <div class="field">
+            <label for="rarity">rarity</label>
+            <input type="text" id="rarity" name="cardRarity" th:field="*{rarity}" required>
+        </div>
+        <div class="field">
+            <label for="ruleText">Description</label>
+            <input type="text" id="ruleText" name="cardRuleText" th:field="*{ruleText}" required>
+        </div>
+        <div class="field">
+            <label for="pictureRef">Card Image</label>
+            <input type="file" id="pictureRef" name="cardImage" accept="image/*" required>
+        </div>
+        <div class="field">
+            <label for="manaCost">Card Mana Cost</label>
+            <input type="text" id="manaCost" name="cardManaCost" th:field="*{manaCost}" required>
+        </div>
+        <div class="field">
+            <label for="attack">Card Attack Value</label>
+            <input type="text" id="attack" name="cardAttack" th:field="*{attack}">
+        </div>
+        <div class="field">
+            <label for="defense">Card Defense Value</label>
+            <input type="text" id="defense" name="cardDefense" th:field="*{defense}">
+        </div>
+        <div class="button">
+            <button type="submit">Save Card</button>
+        </div>
+    </form>
   </div>
 </div>
 

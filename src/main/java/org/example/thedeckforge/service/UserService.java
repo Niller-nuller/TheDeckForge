@@ -2,7 +2,6 @@ package org.example.thedeckforge.service;
 
 import org.example.thedeckforge.entity.User;
 import org.example.thedeckforge.entity.interfaces.IUserRepository;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +17,9 @@ public class UserService {
 
     public User getCurrentUser(Authentication authentication) {
         if (authentication == null || !authentication.isAuthenticated()) {
+            System.out.println("ups");
             return null;
         }
-        String email = authentication.getName();
-        return userRepository.findByEmail(email);
+        return (User) authentication.getPrincipal();
     }
 }

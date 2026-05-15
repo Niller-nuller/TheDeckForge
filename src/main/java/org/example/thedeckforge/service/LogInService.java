@@ -37,7 +37,12 @@ public class LogInService {
     private boolean isValidCredentials(Authority loginRequest, Authority authLogin) {
         return authLogin != null && BCrypt.checkpw(loginRequest.getPassword(), authLogin.getPassword());
     }
-
+    public Authority getAuthorityFromEmail(String email){
+        return userRepository.getAuthorityByEmail(email);
+    }
+    public User getUserFromAuthority(Authority authority){
+        return userRepository.getUserFromAuth(authority);
+    }
     public Authority getLoginRequest() {
         return new Authority();
     }

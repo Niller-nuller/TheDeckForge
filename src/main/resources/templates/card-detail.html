@@ -1,31 +1,118 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="da" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security6">
 <head>
     <meta charset="UTF-8">
-    <title>Card Detail</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="|${card.cardName} - Deckforge|">Kort</title>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
-<div class="card card-profile">
-    <img th:src="${card.getPictureRef()}" alt="">
-    <div class="card-body">
-        <h5 class="card-title" th:text="${card.getCardName()}"></h5>
-        <p class="card-text" th:text="${card.getCardTypes()}"></p>
-        <p class="card-text" th:text="${card.getColor()}"></p>
-        <p class="card-text" th:text="${card.getSet()}"></p>
-        <p class="card-text" th:text="${card.getRarity()}"></p>
-        <p class="card-text" th:text="${card.getManaCost()}"></p>
-        <p class="card-text" th:text="${card.getRuleText()}"></p>
-        <p class="card-text" th:if="${card.getAttack() != null}">
-            <span class="card-text" th:text="${card.getAttack()}"></span>
-        </p>
-        <p class="card-text" th:if="${card.getDefense() != null}">
-            <span class="card-text" th:text="${card.getDefense()}"></span>
-        </p>
+
+<section class="card-detail-page">
+    <div class="container">
+
+        <a th:href="@{/cards/card-search}" class="hero-eyebrow"
+           style="display: inline-block; margin-bottom: var(--space-6);">
+            ‹ Tilbage til søgning
+        </a>
+
+        <div class="card-detail-layout">
+
+            <div class="card-detail-art">
+                <img th:src="${card.pictureRef}" th:alt="${card.cardName}">
+            </div>
+
+            <div class="card-detail-info">
+                <span class="hero-eyebrow"
+                      th:text="${card.cardType}">Creature</span>
+                <h1 th:text="${card.cardName}">Card Name</h1>
+                <p class="card-detail-tagline" th:text="${card.set}">Foundations</p>
+
+                <dl class="card-detail-meta-grid">
+                    <dt>Sjældenhed</dt>
+                    <dd>
+                        <span class="rarity-pill"
+                              th:classappend="|rarity-${#strings.toLowerCase(card.rarity)}|"
+                              th:text="${card.rarity}">Rare</span>
+                    </dd>
+
+                    <dt>Farve</dt>
+                    <dd th:text="${card.color}">Blue</dd>
+
+                    <dt>Type</dt>
+                    <dd th:text="${card.cardType}">Creature</dd>
+
+                    <dt>Mana cost</dt>
+                    <dd>
+                        <span th:if="${!#strings.isEmpty(card.manaCost)}" th:text="${card.manaCost}">{2}{R}</span>
+                        <span th:if="${#strings.isEmpty(card.manaCost)}">&mdash;</span>
+                    </dd>
+
+                    <dt th:if="${card.attack > 0 or card.defense > 0}">Power / Toughness</dt>
+                    <dd th:if="${card.attack > 0 or card.defense > 0}"
+                        th:text="|${card.attack} / ${card.defense}|">2 / 3</dd>
+                </dl>
+
+                <div class="card-rule-text" th:text="${card.ruleText}">
+                    Card rule text goes here.
+                </div>
+
+                <div class="hero-actions" style="justify-content: flex-start; margin-top: var(--space-8);"
+                     sec:authorize="isAuthenticated()">
+                    <form id="add-to-collection" th:action="@{/collection/card-detail/{id}/add(id=${card.id})}" method="post">
+                        <button type="submit" class="btn btn-secondary">Tilføj til samling</button>
+                    </form>
+                    <form id="remove-from-collection" th:if="${hasCard}" th:action="@{/collection/card-detail/{id}/remove(id=${card.id})}" method="post">
+                        <button type="submit" class="btn btn-secondary">Fjern kort fra samling</button>
+                    </form>
+                    <button type="button" class="btn btn-secondary">Tilføj til deck</button>
+                </div>
+            </div>
+
+        </div>
 
     </div>
-</div>
+</section>
 
+<footer class="footer">
+    <div class="container">
+        <div class="footer-ornament">⚜ ✦ ⚜</div>
+        <p class="footer-text">Deckforge · Anno MMXXVI</p>
+    </div>
+</footer>
 
+<script>
+    function setupForm(id, successMessage) {
+        var form = document.getElementById(id);
+        if (!form) return;
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            var csrfToken = document.querySelector('meta[name="_csrf"]').content;
+            var csrfHeader = document.querySelector('meta[name="_csrf_header"]').content;
+            var headers = {};
+            headers[csrfHeader] = csrfToken;
+            fetch(this.action, { method: 'POST', headers: headers })
+                .then(function(response) {
+                    if (response.ok) showToast(successMessage);
+                    else showToast('Noget gik galt.');
+                });
+        });
+    }
+
+    setupForm('add-to-collection', 'Kort tilføjet til samling!');
+    setupForm('remove-from-collection', 'Kort fjernet fra samling!');
+
+    function showToast(message) {
+        var toast = document.createElement('div');
+        toast.className = 'toast-notification';
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        setTimeout(function() { toast.remove(); }, 3000);
+    }
+</script>
 </body>
 </html>

@@ -1,5 +1,6 @@
-package org.example.thedeckforge.validation;   // <-- byt til "config" eller "security", "validation" giver ikke mening
+package org.example.thedeckforge.seclayer;   // <-- byt til "config" eller "security", "validation" giver ikke mening
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
@@ -9,8 +10,6 @@ import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration //This runs all the beans in this class
@@ -18,12 +17,15 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity //This should allow us to accept users based on they roles
 public class SecurityConfig {
 
+    @Autowired
+    private CustomAuthenticationProvider customAuthenticationProvider;
+
     // === Hierarki: ADMIN > ORGANIZER > MEMBER ===
     @Bean //This sets the role
     public RoleHierarchy roleHierarchy() {
         return RoleHierarchyImpl.fromHierarchy("""
             ROLE_ADMIN > ROLE_ORGANIZER
-            ROLE_ORGANIZER > ROLE_USER
+            ROLE_ORGANIZER > ROLE_MEMBER
             """);
     }
 
@@ -36,16 +38,11 @@ public class SecurityConfig {
         return handler;
     }
 
-    // === Password-hashing (BCrypt) ===
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
     // === Sikkerhedsregler for HTTP requests ===
     @Bean // This build the security flow based on given rules (Which end-point are accessible by what role?, When to encode, and when to check role hierarchy)
     public SecurityFilterChain securityFilterChain(HttpSecurity http){
         http
+                .authenticationProvider(customAuthenticationProvider)
                 .authorizeHttpRequests(auth -> auth
                         // Offentligt
                         .requestMatchers("/", "/login", "/register", "/css/**", "/js/**", "/img/**", "/cards/**").permitAll()
@@ -61,7 +58,7 @@ public class SecurityConfig {
 
                         .anyRequest().authenticated()
                 )
-                .formLogin(form -> form
+                .formLogin(form -> form // This is where we can config how spring security is suppose to handle it's form, when it comes to login.
                         .loginPage("/login")
                         .loginProcessingUrl("/login")
                         .usernameParameter("email")

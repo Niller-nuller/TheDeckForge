@@ -44,11 +44,11 @@ create table Collections (
 
 
 create table Decks (
-                      DeckName varchar(255) not null,
-                      Format Varchar(50),
-                      DeckId BIGINT auto_increment primary key,
-                      UserId BIGINT not null,
-                      foreign key (UserId) references Users(UserId)
+                    DeckId BIGINT auto_increment primary key,
+                    DeckName varchar(255) not null,
+                    Format Varchar(50),
+                    UserId BIGINT not null,
+                    foreign key (UserId) references Users(UserId)
 );
 
 create table DeckCards (

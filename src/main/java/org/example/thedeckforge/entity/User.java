@@ -58,6 +58,9 @@ public class User {
     public void setDecks(List<Deck> decks) {
         this.decks = decks;
     }
+    public List<Deck> getDecks(){
+        return decks;
+    }
     public String getName() {
         return name;
     }

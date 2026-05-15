@@ -2,19 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>DeckCreator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lav deck</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<form th:action="@{/createDeck}" th:object="${deck}" method="post">
+<form th:action="@{/decks/deck-creator}" th:object="${deck}" method="post">
 
     <div class="field">
-        <label for="name">Deck Name:</label><br>
-        <input type="text" id="name" th:field="*{name}" placeholder="for example dark destroyer deck" required><br><br>
+        <label for="name" class="form-label" >Deck Name:</label><br>
+        <input type="text" id="name" th:field="*{name}" placeholder="eksemplevis dark destroyer deck" required class="form-input" ><br><br>
     </div>
     <div class ="field-row">
         <div class="field">
-            <label for="formatType">Format</label>
-            <select id="formatType" th:field="*{format}" required>
+            <label for="formatType" class="form-label">Format</label>
+            <select id="formatType" th:field="*{format}" required class="form-field" >
                 <option value="">-- Choose --</option>
                 <option th:each="f : ${formatType}"
                         th:value="${f}"
@@ -22,7 +24,9 @@
             </select>
         </div>
     </div>
-    <button type="submit">Create Deck</button>
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Opret deck</button>
+    </div>
 </form>
 </body>
 </html>

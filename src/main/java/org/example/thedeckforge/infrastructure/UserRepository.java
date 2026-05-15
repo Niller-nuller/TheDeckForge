@@ -31,7 +31,7 @@ public class UserRepository implements IUserRepository {
                         rs.getString("PasswordHash"),
                         Roles.valueOf(rs.getString("UserRole"))
                 ),
-                userAuth.getUsername()
+                userAuth.getEmail()
         );
     }
 
@@ -39,7 +39,7 @@ public class UserRepository implements IUserRepository {
     @Override
     public void createUserAuthority(Authority userAuth) {
         String sql = "INSERT INTO credentials (Email, PasswordHash) VALUES (?, ?)";
-        jdbcTemplate.update(sql, userAuth.getUsername(), userAuth.getPassword());
+        jdbcTemplate.update(sql, userAuth.getEmail(), userAuth.getPassword());
     }
 
     @Override
@@ -66,14 +66,14 @@ public class UserRepository implements IUserRepository {
             User u = new User(rs.getString("Name"), rs.getDate("Age").toLocalDate(), auth);
             u.setId(rs.getLong("UserId"));
             return u;
-        }, userAuth.getUsername());
+        }, userAuth.getEmail());
     }
 
     @Override
     public Long getUserLoginId(Authority userAuth) {
         String sql = "SELECT CredentialsId FROM Credentials WHERE email = ?";
         return jdbcTemplate.queryForObject(sql,
-                (rs, rowNum) -> rs.getLong("CredentialsId"), userAuth.getUsername()
+                (rs, rowNum) -> rs.getLong("CredentialsId"), userAuth.getEmail()
         );
     }
     @Override
@@ -114,7 +114,7 @@ public class UserRepository implements IUserRepository {
     @Override
     public Long getUserId(User user){
         String sql = "SELECT UsersId FROM Users LEFT JOIN Credentials ON Users.UserCrednetialsId = Credentials.CredentialsId WHERE Email = ?";
-        return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> rs.getLong("UserId"), user.getAuthority().getUsername());
+        return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> rs.getLong("UserId"), user.getAuthority().getEmail());
     }
 
     @Override

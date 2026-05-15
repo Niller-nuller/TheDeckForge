@@ -18,8 +18,8 @@ public class TestController {
         System.out.println(user.getId());
         System.out.println(user.getName());
         System.out.println(user.getAge());
-        System.out.println(user.getAuthority().getUsername());
-        System.out.println(user.getAuthority().getUsername());
+        System.out.println(user.getAuthority().getEmail());
+        System.out.println(user.getAuthority().getEmail());
         return "Logged in as: " + user.getName() + " | Role: " + user.getAuthority().getAuthorities();
     }
 }

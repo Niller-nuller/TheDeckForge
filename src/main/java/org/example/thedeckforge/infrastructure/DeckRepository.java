@@ -31,7 +31,7 @@ public class DeckRepository implements IDeckRepository {
     public List<Deck> getUsersDecks (User user){
         String deckIdSql = "SELECT DeckID FROM Users RIGHT JOIN Decks ON Users.UserId = Decks.UserId where Email = ?";
         ArrayList<Integer> deckIds = new ArrayList<>();
-        jdbcTemplate.queryForList(deckIdSql,user.getAuthority().getUsername(),deckIds);
+        jdbcTemplate.queryForList(deckIdSql,user.getAuthority().getEmail(),deckIds);
         String deckInfoSql = "SELECT * FROM Decks WHERE DeckID = ?";
         String deckContentsSql = "SELECT * FROM Cards LEFT JOIN DeckkCards ON Cards.CardId = DeckkCards.CardId WHERE DeckId = ?";
         List<Deck> decks = new ArrayList<>();

@@ -5,11 +5,10 @@ import jakarta.persistence.Enumerated;
 import org.example.thedeckforge.entity.enums.Roles;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-public class Authority implements UserDetails {
+public class Authority {
     private String email;
     private String password;
     @Enumerated(EnumType.STRING)
@@ -23,12 +22,12 @@ public class Authority implements UserDetails {
     public void setEmail(String email) {
         this.email = email;
     }
-    @Override
+
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_" + roles.name()));
     }
-    @Override
-    public String getUsername() {
+
+    public String getEmail() {
         return email;
     }
     public String getPassword() {
